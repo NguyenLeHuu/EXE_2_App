@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  SafeAreaView,
-  TextInput,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, Text, StatusBar, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/index";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -29,14 +20,19 @@ const OrderScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <View style={{ marginLeft: 10 }}>
+        <Pressable
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{ marginLeft: 10 }}
+        >
           <Ionicons
             name="ios-arrow-back-sharp"
             size={SIZES.h2}
             fontWeight="100"
             color="white"
           />
-        </View>
+        </Pressable>
         <Text
           style={{
             marginLeft: 10,
@@ -50,15 +46,17 @@ const OrderScreen = ({ navigation }) => {
       </View>
       <View style={{ flex: 1, marginHorizontal: 10 }}>
         <Tab.Navigator
-          // swipeEnabled={false}
+          initialRouteName="Đã nhận"
           screenOptions={{
-            swipeEnabled: false,
+            tabBarStyle: { backgroundColor: COLORS.white },
             tabBarLabelStyle: {
-              fontSize: 14,
+              fontSize: 15,
               color: COLORS.primary,
-              fontWeight: 800,
+              fontWeight: "700",
               textTransform: "none",
             },
+            tabBarIndicatorStyle: { backgroundColor: COLORS.primary },
+            // swipeEnabled: false,
           }}
         >
           <Tab.Screen name="Đang giao" component={OrderPendingScreen} />

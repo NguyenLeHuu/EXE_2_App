@@ -10,9 +10,28 @@ import {
   StyleSheet,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/index";
+// import firebase from "firebase/app";
+// import "firebase/auth";
+
+// // Cấu hình Firebase
+// const firebaseConfig = {
+//   // apiKey: "AIzaSyDsDbQotWd0DUosqcTZJjVGxtH-L1xRrrA",
+//   // authDomain: "exe-tastetrekker.firebaseapp.com",
+//   // projectId: "exe-tastetrekker",
+//   apiKey: "AIzaSyAcnwA0rbfkl9xLDsKip90UQJiEhEI-Zqk",
+//   authDomain: "fir-auth-uicha.firebaseapp.com",
+//   projectId: "fir-auth-uicha",
+// };
+
+// // Khởi tạo ứng dụng Firebase
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+// }
+
 const LoginScreen = ({ navigation }) => {
   const [text, onChangeText] = React.useState("");
   const [number, onChangeNumber] = React.useState("");
+
   return (
     <View
       style={{
@@ -86,7 +105,7 @@ const LoginScreen = ({ navigation }) => {
             }}
           >
             <TouchableOpacity
-              onPress={() => navigation.navigate("Home")}
+              onPress={() => navigation.navigate("Tab bar")}
               style={{
                 height: 60,
                 width: 330,

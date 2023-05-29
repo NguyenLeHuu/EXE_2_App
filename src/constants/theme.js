@@ -20,6 +20,8 @@ export const COLORS = {
   light: "#F3F4FB",
   darkBlue: "#7978B5",
   yellow: "#ffca28",
+  lightPrimary: "#ab5e59",
+  lightPrimary1: "#754d5d",
 };
 
 export const SIZES = {

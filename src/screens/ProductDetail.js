@@ -124,7 +124,7 @@ const ProductDetail = ({ navigation }) => {
       </View>
       <View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Cart")}
+          onPress={() => navigation.navigate("Tab bar")}
           style={{
             height: 60,
             width: 330,
