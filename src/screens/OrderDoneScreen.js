@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,8 +11,22 @@ import {
 import { COLORS } from "../constants/index";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import Modal from "react-native-modal";
-const OrderDoneScreen = ({ navigation }) => {
+const OrderDoneScreen = ({ navigation, route }) => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [done, setDone] = useState([]);
+  const { data } = route.params;
+  console.log(data);
+  // console.log(navigation);
+  // useEffect(() => {
+  //   if (route.params && route.params.data) {
+  //     let da = route.params.data;
+  //     setDone(da);
+  //   }
+  // }, [route]);
+
+  // useEffect(() => {
+  //   console.log("________", done);
+  // }, [done]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);

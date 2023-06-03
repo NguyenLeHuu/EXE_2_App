@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,7 +12,14 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/index";
-const ProductDetail = ({ navigation }) => {
+import createMyAxios from "../util/axios";
+
+const API = createMyAxios();
+
+const ProductDetail = ({ navigation, route }) => {
+  const [quantity, setQuantity] = useState(1);
+  const product = route.params.data.product;
+
   return (
     <View
       style={{
@@ -21,11 +28,11 @@ const ProductDetail = ({ navigation }) => {
         alignItems: "center",
       }}
     >
-      <View>
+      <View style={{ backgroundColor: COLORS.primary }}>
         <View
           style={{
             backgroundColor: COLORS.primary,
-            height: 290,
+            height: 320,
             width: 410,
             marginTop: 100,
             justifyContent: "center",
@@ -34,7 +41,10 @@ const ProductDetail = ({ navigation }) => {
         >
           <View style={{ marginTop: -80 }}>
             <Image
-              source={require("./../assets/images/product.png")}
+              // source={require("./../assets/images/product.png")}
+              source={{
+                uri: product.mainimg,
+              }}
               style={{
                 width: 380,
                 height: 241,
@@ -48,10 +58,19 @@ const ProductDetail = ({ navigation }) => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
+                flexWrap: "nowrap",
               }}
             >
-              <Text style={styles.txt_d1}>Hồng treo gió</Text>
-              <Text style={styles.txt_d1}>250.000đ</Text>
+              <Text
+                style={{
+                  color: COLORS.white,
+                  fontSize: SIZES.h2,
+                  flex: 1,
+                }}
+              >
+                {product.name}
+              </Text>
+              <Text style={styles.txt_d1}>{product.price}đ</Text>
             </View>
 
             <View
@@ -86,7 +105,12 @@ const ProductDetail = ({ navigation }) => {
         }}
       >
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              if (quantity > 1) setQuantity(quantity - 1);
+            }}
+          >
             <Text
               style={{
                 color: COLORS.white,
@@ -105,11 +129,16 @@ const ProductDetail = ({ navigation }) => {
               fontSize: SIZES.h2,
             }}
           >
-            1
+            {quantity}
           </Text>
         </View>
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              if (quantity < product.quantity) setQuantity(quantity + 1);
+            }}
+          >
             <Text
               style={{
                 color: COLORS.white,
@@ -143,7 +172,7 @@ const ProductDetail = ({ navigation }) => {
               fontWeight: "bold",
             }}
           >
-            Thêm vào giỏ hàng - 250.000
+            Thêm vào giỏ hàng - {product.price}
           </Text>
         </TouchableOpacity>
       </View>

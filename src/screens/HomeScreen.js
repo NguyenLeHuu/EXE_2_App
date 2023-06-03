@@ -156,18 +156,24 @@ const HomeScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("CateProduct")}
+                    onPress={() =>
+                      navigation.navigate("CateProduct", {
+                        data: "Miền Bắc",
+                      })
+                    }
                     style={{
                       height: 80,
+                      width: 80,
                       backgroundColor: COLORS.primary,
                       justifyContent: "center",
-                      borderRadius: 20,
+                      alignItems: "center",
+                      borderRadius: 5,
                     }}
                   >
                     <Image
-                      source={require("./../assets/images/empty.png")}
+                      source={require("./../assets/images/locate.png")}
                       style={{
-                        height: 40,
+                        height: 60,
                         resizeMode: "contain",
                       }}
                     />
@@ -196,16 +202,24 @@ const HomeScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("CateProduct", {
+                        data: "Miền Trung",
+                      })
+                    }
                     style={{
                       height: 80,
+                      width: 80,
                       backgroundColor: COLORS.primary,
                       justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 5,
                     }}
                   >
                     <Image
-                      source={require("./../assets/images/empty.png")}
+                      source={require("./../assets/images/locate.png")}
                       style={{
-                        height: 40,
+                        height: 60,
                         resizeMode: "contain",
                       }}
                     />
@@ -221,7 +235,7 @@ const HomeScreen = ({ navigation }) => {
                         fontSize: 16,
                       }}
                     >
-                      Miền Bắc
+                      Miền Trung
                     </Text>
                   </View>
                 </View>
@@ -234,16 +248,24 @@ const HomeScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("CateProduct", {
+                        data: "Miền Nam",
+                      })
+                    }
                     style={{
                       height: 80,
+                      width: 80,
                       backgroundColor: COLORS.primary,
                       justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 5,
                     }}
                   >
                     <Image
-                      source={require("./../assets/images/empty.png")}
+                      source={require("./../assets/images/locate.png")}
                       style={{
-                        height: 40,
+                        height: 60,
                         resizeMode: "contain",
                       }}
                     />
@@ -259,7 +281,7 @@ const HomeScreen = ({ navigation }) => {
                         fontSize: 16,
                       }}
                     >
-                      Miền Bắc
+                      Miền Nam
                     </Text>
                   </View>
                 </View>
@@ -279,16 +301,24 @@ const HomeScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("CateProduct", {
+                        data: "Khô, sấy",
+                      })
+                    }
                     style={{
                       height: 80,
+                      width: 80,
                       backgroundColor: COLORS.primary,
                       justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 5,
                     }}
                   >
                     <Image
-                      source={require("./../assets/images/empty.png")}
+                      source={require("./../assets/images/KhoSay.png")}
                       style={{
-                        height: 40,
+                        height: 60,
                         resizeMode: "contain",
                       }}
                     />
@@ -304,7 +334,7 @@ const HomeScreen = ({ navigation }) => {
                         fontSize: 16,
                       }}
                     >
-                      Miền Bắc
+                      Khô, sấy
                     </Text>
                   </View>
                 </View>
@@ -317,16 +347,24 @@ const HomeScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("CateProduct", {
+                        data: "Bánh kẹo",
+                      })
+                    }
                     style={{
                       height: 80,
+                      width: 80,
                       backgroundColor: COLORS.primary,
                       justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 5,
                     }}
                   >
                     <Image
-                      source={require("./../assets/images/empty.png")}
+                      source={require("./../assets/images/cake.png")}
                       style={{
-                        height: 40,
+                        height: 60,
                         resizeMode: "contain",
                       }}
                     />
@@ -342,7 +380,7 @@ const HomeScreen = ({ navigation }) => {
                         fontSize: 16,
                       }}
                     >
-                      Miền Bắc
+                      Bánh kẹo
                     </Text>
                   </View>
                 </View>
@@ -355,16 +393,24 @@ const HomeScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("CateProduct", {
+                        data: "Đồ uống",
+                      })
+                    }
                     style={{
                       height: 80,
+                      width: 80,
                       backgroundColor: COLORS.primary,
                       justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 5,
                     }}
                   >
                     <Image
-                      source={require("./../assets/images/empty.png")}
+                      source={require("./../assets/images/drink.png")}
                       style={{
-                        height: 40,
+                        height: 60,
                         resizeMode: "contain",
                       }}
                     />
@@ -380,7 +426,7 @@ const HomeScreen = ({ navigation }) => {
                         fontSize: 16,
                       }}
                     >
-                      Miền Bắc
+                      Đồ uống
                     </Text>
                   </View>
                 </View>

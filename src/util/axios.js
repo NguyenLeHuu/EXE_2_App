@@ -20,6 +20,15 @@ const createMyAxios = () => {
       });
   };
 
+  const getWithData = (endpoint, data) => {
+    return api
+      .get(endpoint, data)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(`GET request to ${endpoint} failed: ${error.message}`);
+      });
+  };
+
   const post = (endpoint, data) => {
     return api
       .post(endpoint, data)
@@ -49,6 +58,7 @@ const createMyAxios = () => {
 
   return {
     get,
+    getWithData,
     post,
     customRequest,
   };

@@ -12,7 +12,8 @@ import OrderDoneScreen from "./src/screens/OrderDoneScreen";
 import OrderPendingScreen from "./src/screens/OrderPendingScreen";
 import CateProduct from "./src/screens/CateProduct";
 import SupplierScreen from "./src/screens/SupplierScreen";
-
+import NotiScreen from "./src/screens/NotiScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -34,6 +35,8 @@ export default function App() {
         <Stack.Screen name="Đã hủy" component={OrderCancelScreen} />
         <Stack.Screen name="CateProduct" component={CateProduct} />
         <Stack.Screen name="SupplierScreen" component={SupplierScreen} />
+        <Stack.Screen name="Noti" component={NotiScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
