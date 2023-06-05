@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:315813098350:android:10d55ba9498bb10903477f",
+        "mobilesdk_app_id": "1:315813098350:android:9d4132c58f9cb6f603477f",
         "android_client_info": {
-          "package_name": "com.EXE.tastrekker"
+          "package_name": "com.naninane.TasteTrekkersomeProject"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "315813098350-796rkoulunbi33fe16hjgq959s7lbpt9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.naninane.TasteTrekkersomeProject",
+            "certificate_hash": "abca6b7e8aea0296d21921471d088f9171b912ee"
+          }
+        },
         {
           "client_id": "315813098350-1tn35k6tbaakadmlkqab5lkrdcvioup9.apps.googleusercontent.com",
           "client_type": 3

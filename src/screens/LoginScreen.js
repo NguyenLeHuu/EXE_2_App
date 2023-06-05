@@ -10,28 +10,110 @@ import {
   StyleSheet,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/index";
-// import firebase from "firebase/app";
-// import "firebase/auth";
 
-// // Cấu hình Firebase
-// const firebaseConfig = {
-//   // apiKey: "AIzaSyDsDbQotWd0DUosqcTZJjVGxtH-L1xRrrA",
-//   // authDomain: "exe-tastetrekker.firebaseapp.com",
-//   // projectId: "exe-tastetrekker",
-//   apiKey: "AIzaSyAcnwA0rbfkl9xLDsKip90UQJiEhEI-Zqk",
-//   authDomain: "fir-auth-uicha.firebaseapp.com",
-//   projectId: "fir-auth-uicha",
-// };
-
-// // Khởi tạo ứng dụng Firebase
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// }
-
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import auth from "@react-native-firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import createMyAxios from "../util/axios";
+import { Switch } from "react-native-paper";
+const API = createMyAxios();
 const LoginScreen = ({ navigation }) => {
   const [text, onChangeText] = React.useState("");
   const [number, onChangeNumber] = React.useState("");
 
+  GoogleSignin.configure({
+    webClientId:
+      "315813098350-1tn35k6tbaakadmlkqab5lkrdcvioup9.apps.googleusercontent.com",
+  });
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // const user_sign_in = auth().signInWithCredential(googleCredential);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
+  const [initializing, setInitializing] = React.useState(true);
+  const [user, setUser] = React.useState();
+
+  React.useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  // Handle user state changes
+  async function onAuthStateChanged(user) {
+    // setUser(user);
+    AsyncStorage.setItem(
+      "UserLoggedInData",
+      JSON.stringify({ user, loggedIn: true })
+    );
+    console.log(">>");
+    console.log(user);
+    console.log("<<");
+    const currentUser = auth().currentUser;
+
+    try {
+      const idToken = await user.getIdToken();
+      console.log(idToken);
+      const response = await API.post("/login", {
+        idToken: idToken,
+      });
+      console.log(response);
+      // user
+      //   .getIdToken()
+      //   .then(async (idToken) => {
+      //     console.log(idToken);
+
+      //     const response = await API.post("/login", {
+      //       idToken: idToken,
+      //     });
+      //     console.log(response);
+      //     switch (response.accountdb) {
+      //       case "unknown":
+      //         const response_signup = await API.post("/signup", {
+      //           role: "customer",
+      //           address: currentUser?.address || "",
+      //           data: {
+      //             name: currentUser.displayName,
+      //             uid: currentUser.uid,
+      //             email: currentUser.email,
+      //             phone: currentUser?.phoneNumber || "",
+      //             picture: currentUser.photoURL,
+      //           },
+      //         });
+      //         await AsyncStorage.setItem("idToken", JSON.stringify(idToken));
+      //         navigation.navigate("Tab bar");
+      //         break;
+      //       case "customer":
+      //         await AsyncStorage.setItem("idToken", JSON.stringify(idToken));
+      //         navigation.navigate("Tab bar");
+      //         break;
+      //       case "saler":
+      //         break;
+      //     }
+      //   })
+
+      //   .catch((error) => {
+      //     console.log("Error getting ID token:", error);
+      //   });
+    } catch (error) {
+      console.log(error);
+    }
+
+    navigation.navigate("Tab bar");
+    if (initializing) setInitializing(false);
+  }
+
+  if (initializing) return null;
   return (
     <View
       style={{
@@ -105,7 +187,6 @@ const LoginScreen = ({ navigation }) => {
             }}
           >
             <TouchableOpacity
-              onPress={() => navigation.navigate("Tab bar")}
               style={{
                 height: 60,
                 width: 330,
@@ -174,7 +255,13 @@ const LoginScreen = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              onGoogleButtonPress().then(() =>
+                console.log("Signed in with Google!")
+              );
+            }}
+          >
             <View style={styles.circle}>
               <Image
                 source={require("./../assets/images/google.png")}

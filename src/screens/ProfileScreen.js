@@ -9,9 +9,13 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/index";
 import createMyAxios from "../util/axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
 import {
   Ionicons,
   FontAwesome,
@@ -22,8 +26,45 @@ import {
   Fontisto,
   Feather,
 } from "@expo/vector-icons";
+import auth from "@react-native-firebase/auth";
 
 const ProfileScreen = ({ navigation }) => {
+  const [userDetail, setUserDetail] = React.useState();
+  const log_out = () => {
+    auth()
+      .signOut()
+      .then(() => console.log("User signed out!"))
+      .then(() => {
+        GoogleSignin.signOut;
+        GoogleSignin.revokeAccess();
+      })
+      .then(() => AsyncStorage.clear())
+      .then(() => navigation.navigate("Login"))
+      .catch(() => {
+        console.log(" >>ERR LOG_OUT");
+      });
+  };
+  React.useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const UserLoggedInData = await AsyncStorage.getItem("UserLoggedInData");
+    // const id = await AsyncStorage.getItem("idToken");
+    // console.log("___", id);
+
+    if (UserLoggedInData) {
+      // console.log("UserLoggedInData >>>>");
+      // console.log(JSON.stringify(JSON.parse(UserLoggedInData), null, 2));
+      // console.log("<<<< UserLoggedInData");
+      let udata = JSON.parse(UserLoggedInData);
+      setUserDetail(udata.user);
+    }
+
+    // console.log(userDetail.displayName);
+    // console.log(userDetail.photoURL);
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.lightGray }}>
       <View
@@ -71,7 +112,13 @@ const ProfileScreen = ({ navigation }) => {
         <View style={{ backgroundColor: COLORS.primary, height: 50 }}></View>
         <View style={{ height: 50 }}></View>
         <Image
-          source={require("../assets/images/product3.png")}
+          // source={require("../assets/images/product3.png")}
+
+          source={{
+            uri:
+              userDetail?.photoURL ||
+              "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+          }}
           style={{
             width: 140,
             height: 140,
@@ -93,9 +140,23 @@ const ProfileScreen = ({ navigation }) => {
         <Text
           style={{ color: COLORS.primary, fontWeight: "bold", fontSize: 16 }}
         >
-          Lê Trung Hiếu
+          {userDetail?.displayName || "Welcome back"}
         </Text>
       </View>
+      <Pressable
+        onPress={() => log_out()}
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          marginTop: 10,
+        }}
+      >
+        <Text
+          style={{ color: COLORS.primary, fontWeight: "bold", fontSize: 16 }}
+        >
+          Log out
+        </Text>
+      </Pressable>
 
       <ScrollView
         showsVerticalScrollIndicator={false}

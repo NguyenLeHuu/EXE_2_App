@@ -17,7 +17,7 @@ import createMyAxios from "../util/axios";
 const API = createMyAxios();
 const CateProduct = ({ navigation, route }) => {
   let catename = route.params.data;
-  console.log(catename);
+  // console.log(catename);
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -104,7 +104,9 @@ const CateProduct = ({ navigation, route }) => {
               <Image
                 // source={require("../assets/images/product1.png")}
                 source={{
-                  uri: product.mainimg,
+                  uri:
+                    product?.mainimg ||
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5SpmjR1qryESMLE7EQ6IVXO-gednZHwqtaA&usqp=CAU",
                 }}
                 style={{
                   width: 162,

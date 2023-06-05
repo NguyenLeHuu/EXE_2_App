@@ -22,10 +22,12 @@ import OrderDoneScreen from "../screens/OrderDoneScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NotiScreen from "../screens/NotiScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Tab = createMaterialBottomTabNavigator();
+const API = createMyAxios();
 
 const TabBarBottom = ({ navigation }) => {
-  const API = createMyAxios();
   return (
     <View
       style={{

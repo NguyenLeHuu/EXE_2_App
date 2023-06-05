@@ -30,25 +30,23 @@ const OrderScreen = ({ navigation }) => {
     };
     fetchData();
   }, []);
-  useEffect(() => {
-    setDone(orders.filter((order) => order.status === "done"));
-    // console.log(done.length);
-    setPending(orders.filter((order) => order.status === "pending"));
-    setCanceled(orders.filter((order) => order.status === "canceled"));
-  }, [orders]);
+  // useEffect(() => {
+  //   setDone(orders.filter((order) => order.status === "done"));
+  //   // console.log(done.length);
+  //   setPending(orders.filter((order) => order.status === "pending"));
+  //   setCanceled(orders.filter((order) => order.status === "canceled"));
+  // }, [orders]);
   // useEffect(() => {
   //   console.log("________", done);
   // }, [done]);
-
+  let filteredDone = [];
   useEffect(() => {
-    const filteredDone = orders.filter((order) => order.status === "done");
+    filteredDone = orders.filter((order) => order.status === "done");
     setDone(filteredDone);
+    // console.log("____", filteredDone);
     navigation.setParams({ data: filteredDone });
   }, [orders, navigation]);
-  // const handleDoneTabPress = () => {
-  //   console.log("11111");
-  //   navigation.navigate("OrderDoneScreen", { data: done1 });
-  // };
+  
 
   return (
     <View style={{ flex: 1, flexDirection: "column" }}>
@@ -108,7 +106,7 @@ const OrderScreen = ({ navigation }) => {
           <Tab.Screen
             name="Đã nhận"
             component={OrderDoneScreen}
-            initialParams={{ data: done }}
+            initialParams={{ data: filteredDone }}
             // listeners={{
             //   tabPress: handleDoneTabPress,
             // }}

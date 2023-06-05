@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   Button,
+  ScrollView,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/index";
@@ -19,6 +20,10 @@ const API = createMyAxios();
 const ProductDetail = ({ navigation, route }) => {
   const [quantity, setQuantity] = useState(1);
   const product = route.params.data.product;
+
+  const handlerAddToCart = () => {
+    navigation.navigate("Tab bar");
+  };
 
   return (
     <View
@@ -43,12 +48,14 @@ const ProductDetail = ({ navigation, route }) => {
             <Image
               // source={require("./../assets/images/product.png")}
               source={{
-                uri: product.mainimg,
+                uri:
+                  product?.mainimg ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5SpmjR1qryESMLE7EQ6IVXO-gednZHwqtaA&usqp=CAU",
               }}
               style={{
                 width: 380,
                 height: 241,
-                resizeMode: "contain",
+                resizeMode: "cover",
               }}
             />
           </View>
@@ -153,10 +160,10 @@ const ProductDetail = ({ navigation, route }) => {
       </View>
       <View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Tab bar")}
+          onPress={() => handlerAddToCart()}
           style={{
             height: 60,
-            width: 330,
+            width: 350,
             margin: 12,
             borderWidth: 1,
             padding: 10,
