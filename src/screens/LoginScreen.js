@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/index";
 
@@ -20,6 +21,7 @@ const API = createMyAxios();
 const LoginScreen = ({ navigation }) => {
   const [text, onChangeText] = React.useState("");
   const [number, onChangeNumber] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   GoogleSignin.configure({
     webClientId:
@@ -46,11 +48,13 @@ const LoginScreen = ({ navigation }) => {
 
   React.useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
     return subscriber; // unsubscribe on unmount
   }, []);
 
   // Handle user state changes
   async function onAuthStateChanged(user) {
+    setIsLoading(true);
     // setUser(user);
     AsyncStorage.setItem(
       "UserLoggedInData",
@@ -63,11 +67,11 @@ const LoginScreen = ({ navigation }) => {
 
     try {
       const idToken = await user.getIdToken();
-      console.log(idToken);
+      // console.log(idToken);
       const response = await API.post("/login", {
         idToken: idToken,
       });
-      console.log(response);
+      // console.log(response);
       // user
       //   .getIdToken()
       //   .then(async (idToken) => {
@@ -108,187 +112,209 @@ const LoginScreen = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-
+    setTimeout(() => {
+      setIsLoading(false);
+      // Continue with the login process
+    }, 2000);
     navigation.navigate("Tab bar");
     if (initializing) setInitializing(false);
   }
 
   if (initializing) return null;
-  return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "space-around",
-        // marginHorizontal: 60,
-        paddingHorizontal: 20,
-      }}
-    >
-      <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
 
+  if (!isLoading) {
+    return (
       <View
         style={{
-          marginTop: "15%",
-          alignItems: "center",
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-around",
+          // marginHorizontal: 60,
+          paddingHorizontal: 20,
         }}
       >
-        <Image
-          source={require("./../assets/images/Logo.png")}
-          style={{
-            width: 280,
-            height: 280,
-            resizeMode: "contain",
-          }}
-        />
-      </View>
+        <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
 
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <View style={{}}>
-          <SafeAreaView>
-            <TextInput
-              style={{
-                height: 60,
-                width: 330,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-              }}
-              onChangeText={onChangeText}
-              value={text}
-              placeholder="Tài khoản, số điện thoại hoặc Email"
-            />
-            <TextInput
-              style={{
-                height: 60,
-                width: 330,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-              }}
-              onChangeText={onChangeNumber}
-              value={number}
-              placeholder="Mật khẩu"
-              keyboardType="numeric"
-            />
+        <View
+          style={{
+            marginTop: "15%",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={require("./../assets/images/Logo.png")}
+            style={{
+              width: 280,
+              height: 280,
+              resizeMode: "contain",
+            }}
+          />
+        </View>
+
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <View style={{}}>
+            <SafeAreaView>
+              <TextInput
+                style={{
+                  height: 60,
+                  width: 330,
+                  margin: 12,
+                  borderWidth: 1,
+                  padding: 10,
+                }}
+                onChangeText={onChangeText}
+                value={text}
+                placeholder="Tài khoản, số điện thoại hoặc Email"
+              />
+              <TextInput
+                style={{
+                  height: 60,
+                  width: 330,
+                  margin: 12,
+                  borderWidth: 1,
+                  padding: 10,
+                }}
+                onChangeText={onChangeNumber}
+                value={number}
+                placeholder="Mật khẩu"
+                keyboardType="numeric"
+              />
+
+              <View
+                style={{
+                  alignItems: "flex-end",
+                  fontSize: SIZES.h3,
+                }}
+              >
+                <Text>Quên mật khẩu?</Text>
+              </View>
+            </SafeAreaView>
 
             <View
               style={{
-                alignItems: "flex-end",
-                fontSize: SIZES.h3,
+                marginTop: 30,
               }}
             >
-              <Text>Quên mật khẩu?</Text>
+              <TouchableOpacity
+                style={{
+                  height: 60,
+                  width: 330,
+                  margin: 12,
+                  borderWidth: 1,
+                  padding: 10,
+                  backgroundColor: COLORS.primary,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: COLORS.white,
+                    fontSize: SIZES.h2,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Đăng nhập
+                </Text>
+              </TouchableOpacity>
             </View>
-          </SafeAreaView>
+          </View>
 
           <View
             style={{
+              height: 18,
+              width: 330,
+              flexDirection: "row",
               marginTop: 30,
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{
+                width: 100,
+                height: 2,
+                backgroundColor: COLORS.primary,
+              }}
+            ></View>
+            <View>
+              <Text
+                style={{
+                  fontSize: SIZES.radius,
+                }}
+              >
+                Hoặc đăng nhập với
+              </Text>
+            </View>
+            <View
+              style={{
+                width: 100,
+                height: 2,
+                backgroundColor: COLORS.primary,
+              }}
+            ></View>
+          </View>
+
+          <View
+            style={{
+              width: "50%",
+              flexDirection: "row",
+              marginTop: 30,
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <TouchableOpacity
-              style={{
-                height: 60,
-                width: 330,
-                margin: 12,
-                borderWidth: 1,
-                padding: 10,
-                backgroundColor: COLORS.primary,
-                justifyContent: "center",
-                alignItems: "center",
+              onPress={() => {
+                onGoogleButtonPress().then(() =>
+                  console.log("Signed in with Google!")
+                );
               }}
             >
-              <Text
-                style={{
-                  color: COLORS.white,
-                  fontSize: SIZES.h2,
-                  fontWeight: "bold",
-                }}
-              >
-                Đăng nhập
-              </Text>
+              <View style={styles.circle}>
+                <Image
+                  source={require("./../assets/images/google.png")}
+                  style={styles.social_icon}
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.circle}>
+                <Image
+                  source={require("./../assets/images/facbook.png")}
+                  style={styles.social_icon}
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.circle}>
+                <Image
+                  source={require("./../assets/images/apple.png")}
+                  style={styles.social_icon}
+                />
+              </View>
             </TouchableOpacity>
           </View>
         </View>
-
-        <View
-          style={{
-            height: 18,
-            width: 330,
-            flexDirection: "row",
-            marginTop: 30,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <View
-            style={{
-              width: 100,
-              height: 2,
-              backgroundColor: COLORS.primary,
-            }}
-          ></View>
-          <View>
-            <Text
-              style={{
-                fontSize: SIZES.radius,
-              }}
-            >
-              Hoặc đăng nhập với
-            </Text>
-          </View>
-          <View
-            style={{
-              width: 100,
-              height: 2,
-              backgroundColor: COLORS.primary,
-            }}
-          ></View>
-        </View>
-
-        <View
-          style={{
-            width: "50%",
-            flexDirection: "row",
-            marginTop: 30,
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              onGoogleButtonPress().then(() =>
-                console.log("Signed in with Google!")
-              );
-            }}
-          >
-            <View style={styles.circle}>
-              <Image
-                source={require("./../assets/images/google.png")}
-                style={styles.social_icon}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.circle}>
-              <Image
-                source={require("./../assets/images/facbook.png")}
-                style={styles.social_icon}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={styles.circle}>
-              <Image
-                source={require("./../assets/images/apple.png")}
-                style={styles.social_icon}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          padding: 10,
+        }}
+      >
+        <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    );
+  }
 };
 
 export default LoginScreen;

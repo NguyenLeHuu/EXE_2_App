@@ -10,6 +10,7 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/index";
 import { MaterialIcons, Entypo, Ionicons, Fontisto } from "@expo/vector-icons";
@@ -17,457 +18,657 @@ import createMyAxios from "../util/axios";
 
 const API = createMyAxios();
 
+export const responeFake = {
+  status: 200,
+  message: "Get list order/cart by customer id successful!",
+  data: [
+    {
+      orderid: "9e603d588054c8c55064a51c661aa1",
+      date: "2023-06-02",
+      totalmoney: "0.00",
+      customerid: "Cus_01",
+      status: "any",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order01",
+      date: "2023-02-06",
+      totalmoney: "20000.00",
+      customerid: "Cus_01",
+      status: "pending",
+      OrderDetails: [
+        {
+          orderdetailid: 3,
+          productid: "PRODUCT_001",
+          quantity: 10,
+        },
+      ],
+    },
+    {
+      orderid: "Order02",
+      date: "2023-02-06",
+      totalmoney: "245000.00",
+      customerid: "Cus_01",
+      status: "pending",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order03",
+      date: "2023-02-06",
+      totalmoney: "163000.00",
+      customerid: "Cus_01",
+      status: "pending",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order04",
+      date: "2023-02-06",
+      totalmoney: "400000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order05",
+      date: "2023-02-06",
+      totalmoney: "650000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order06",
+      date: "2023-02-06",
+      totalmoney: "1025000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order07",
+      date: "2023-02-06",
+      totalmoney: "140000.00",
+      customerid: "Cus_01",
+      status: "cart",
+      OrderDetails: [
+        {
+          orderdetailid: "3",
+          quantity: "2",
+          orderid: "Order07",
+          productid: "PRODUCT_001",
+          price: "135.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "ShuShu Shop",
+          salerid: "SALER_001",
+        },
+        {
+          orderdetailid: "4",
+          quantity: "3",
+          orderid: "Order07",
+          productid: "PRODUCT_002",
+          price: "650.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "Yummi Shop",
+          salerid: "SALER_002",
+        },
+        {
+          orderdetailid: "5",
+          quantity: "1",
+          orderid: "Order07",
+          productid: "PRODUCT_003",
+          price: "320.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "Yummim Shop",
+          salerid: "SALER_003",
+        },
+      ],
+    },
+    {
+      orderid: "Order08",
+      date: "2023-02-06",
+      totalmoney: "103000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+  ],
+};
+
 const CartScreen = ({ navigation }) => {
-  const [orders, setOrders] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [orders, setOrders] = useState();
+  const [cart, setCart] = useState();
+  const [itemCart, setItemCart] = useState([]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const idcustomer = "Cus_01";
+  //       const response = await API.get(`order/customer/${idcustomer}`);
+  //       // console.log(response);
+  //       setOrders(response.data);
+
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const idcustomer = "Cus_01";
-        const response = await API.get(`order/customer/${idcustomer}`);
-        // console.log(response);
-        setOrders(response.data);
+        // console.log("_______________");
+        const arr = responeFake.data;
+        setOrders(arr);
+
+        // console.log(":::::::::orders");
+        // console.log(orders);
+        const filteredCart = orders.find((order) => order.status === "cart");
+        setCart(filteredCart);
+        // console.log(":::::::::cart");
+        // console.log(cart);
+        const orderdetails = cart.OrderDetails;
+        // console.log(":::::::::orderdetails");
+        // console.log(orderdetails);
+
+        setItemCart(orderdetails);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
+
+    // setTimeout(() => {
     fetchData();
-  }, []);
+    // }, 1000);
+  });
 
-  useEffect(() => {
-    filteredCart = orders.filter((order) => order.status === "cart");
-    setCart(filteredCart);
-    console.log(cart);
-  }, [orders]);
+  // useEffect(() => {
+  //   const filteredCart = orders.filter((order) => order.status === "cart");
+  //   setCart(filteredCart);
+  // }, [orders]);
 
-  return (
-    <View style={{ flex: 1, flexDirection: "column" }}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
-      <View
-        style={{
-          flexDirection: "row",
-          height: 113,
-          backgroundColor: COLORS.primary,
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ marginLeft: 10 }}
-        >
-          <Ionicons
-            name="ios-arrow-back-sharp"
-            size={SIZES.h2}
-            fontWeight="100"
-            color="white"
-          />
-        </TouchableOpacity>
-        <Text
+  // useEffect(() => {
+  //   const orderdetails = cart[0].OrderDetails;
+
+  //   setItemCart(orderdetails);
+  // }, [cart]);
+
+  // useEffect(() => {
+  //   setIsLoading(false);
+  // }, [itemCart]);
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, flexDirection: "column" }}>
+        <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
+        <View
           style={{
-            marginLeft: 10,
-            fontSize: SIZES.h2,
-            color: COLORS.white,
-            fontWeight: 400,
+            flexDirection: "row",
+            height: 113,
+            backgroundColor: COLORS.primary,
+            alignItems: "center",
           }}
         >
-          Giỏ hàng ({cart.length})
-        </Text>
-      </View>
-
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.lightGray,
-          marginBottom: 10,
-        }}
-      >
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-        >
-          <View
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ marginLeft: 10 }}
+          >
+            <Ionicons
+              name="ios-arrow-back-sharp"
+              size={SIZES.h2}
+              fontWeight="100"
+              color="white"
+            />
+          </TouchableOpacity>
+          <Text
             style={{
-              height: 260,
-              backgroundColor: COLORS.white,
-              marginTop: 10,
-              marginHorizontal: 10,
+              marginLeft: 10,
+              fontSize: SIZES.h2,
+              color: COLORS.white,
+              fontWeight: 400,
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("SupplierScreen");
-              }}
-              style={{
-                flexDirection: "row",
-                marginVertical: 10,
-                justifyContent: "space-between",
-              }}
-            >
+            Giỏ hàng ({itemCart.length})
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.lightGray,
+            marginBottom: 10,
+          }}
+        >
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
+            {itemCart.map((item, index) => (
               <View
+                key={index}
                 style={{
-                  flexDirection: "row",
+                  height: 260,
+                  backgroundColor: COLORS.white,
+                  marginTop: 10,
+                  marginHorizontal: 10,
                 }}
               >
-                <View
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("SupplierScreen", {
+                      data: item?.salerid,
+                    });
+                  }}
                   style={{
-                    backgroundColor: COLORS.primary,
-                    marginRight: 5,
+                    flexDirection: "row",
+                    marginVertical: 10,
+                    justifyContent: "space-between",
                   }}
                 >
-                  <Text
+                  <View
                     style={{
-                      color: COLORS.white,
+                      flexDirection: "row",
                     }}
                   >
-                    Yêu thích
-                  </Text>
-                </View>
-                <Text
+                    <View
+                      style={{
+                        backgroundColor: COLORS.primary,
+                        marginRight: 5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.white,
+                        }}
+                      >
+                        Yêu thích
+                      </Text>
+                    </View>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 16,
+                      }}
+                    >
+                      {" "}
+                      {item?.salername || "Ara Sports"}
+                      {/* Ara Sports */}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
                   style={{
-                    fontWeight: "bold",
-                    fontSize: 16,
+                    flexDirection: "row",
+                    marginVertical: 10,
                   }}
                 >
-                  {" "}
-                  Ara Sports
-                </Text>
+                  <View
+                    style={{
+                      marginRight: 20,
+                    }}
+                  >
+                    <Image
+                      source={require("./../assets/images/product.png")}
+                      style={{
+                        width: 70,
+                        height: 70,
+                        resizeMode: "cover",
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 500,
+                        width: 300,
+                      }}
+                    >
+                      {item?.name ||
+                        "Gìay đá bóng Predator 2021_mouma roni ko da đẹpaaaaaaaaaaaaaaaaaaaaaaa"}
+                    </Text>
+                    <View
+                      style={{
+                        fontSize: 13,
+                        marginTop: 5,
+                        fontWeight: 300,
+                      }}
+                    >
+                      <Text>Size L</Text>
+                    </View>
+                    <View
+                      style={{
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 13,
+                          marginTop: 5,
+                          fontWeight: 500,
+                          color: COLORS.primary,
+                        }}
+                      >
+                        đ{item?.price || "135.000"}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginVertical: 20,
+                    justifyContent: "center",
+                  }}
+                >
+                  <View>
+                    <TouchableOpacity style={styles.btn}>
+                      <Text
+                        style={{
+                          color: COLORS.black,
+                          fontSize: SIZES.h4,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        -
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      borderTopWidth: 1,
+                      borderBottomWidth: 1,
+                      borderColor: COLORS.lightGray,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: COLORS.black,
+                        fontSize: SIZES.h2,
+                        paddingHorizontal: 20,
+                      }}
+                    >
+                      {item?.quantity}
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity style={styles.btn}>
+                      <Text
+                        style={{
+                          color: COLORS.black,
+                          fontSize: SIZES.h4,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        +
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    marginTop: 10,
+                  }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Shop Voucher 50% mua lần đầu
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: "row" }}>
+                    <MaterialIcons
+                      name="attach-money"
+                      size={24}
+                      color={COLORS.primary}
+                    />
+                    <Text
+                      style={{
+                        fontWeight: 300,
+                        fontSize: 16,
+                      }}
+                    >
+                      {" "}
+                      Tổng:{" "}
+                    </Text>
+                    <Text
+                      style={{
+                        color: COLORS.primary,
+                        fontSize: 16,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {" "}
+                      đ{item?.price * item?.quantity || "154"}.000
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    alignItems: "flex-end",
+                    marginTop: 10,
+                  }}
+                ></View>
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                marginVertical: 10,
-              }}
-            >
+            ))}
+          </ScrollView>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: COLORS.lightGray,
+            flex: 0.3,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              borderTopWidth: 1,
+              borderColor: COLORS.light,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <View
                 style={{
-                  marginRight: 20,
+                  marginHorizontal: 5,
                 }}
               >
-                <Image
-                  source={require("./../assets/images/product.png")}
-                  style={{
-                    width: 70,
-                    height: 70,
-                    resizeMode: "cover",
-                  }}
+                <Fontisto
+                  name="shopping-sale"
+                  size={24}
+                  color={COLORS.primary}
                 />
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                }}
-              >
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 500,
-                    width: 300,
-                  }}
-                >
-                  Gìay đá bóng Predator 2021_mouma roni ko da
-                  đẹpaaaaaaaaaaaaaaaaaaaaaaa
-                </Text>
-                <View
-                  style={{
-                    fontSize: 13,
-                    marginTop: 5,
-                    fontWeight: 300,
-                  }}
-                >
-                  <Text>A8_Đen cam, 41</Text>
-                </View>
-                <View
-                  style={{
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      marginTop: 5,
-                      fontWeight: 500,
-                      color: COLORS.primary,
-                    }}
-                  >
-                    đ135.000
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <View
-              style={{
-                flexDirection: "row",
-                marginVertical: 20,
-                justifyContent: "center",
-              }}
-            >
               <View>
-                <TouchableOpacity style={styles.btn}>
-                  <Text
-                    style={{
-                      color: COLORS.black,
-                      fontSize: SIZES.h4,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    -
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  borderTopWidth: 1,
-                  borderBottomWidth: 1,
-                  borderColor: COLORS.lightGray,
-                }}
-              >
                 <Text
                   style={{
-                    color: COLORS.black,
-                    fontSize: SIZES.h2,
-                    paddingHorizontal: 20,
+                    fontSize: 16,
+                    fontWeight: 400,
                   }}
                 >
-                  1
+                  TasteTreeker Voucher
                 </Text>
-              </View>
-              <View>
-                <TouchableOpacity style={styles.btn}>
-                  <Text
-                    style={{
-                      color: COLORS.black,
-                      fontSize: SIZES.h4,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    +
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: 10,
-              }}
-            >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <View>
                 <Text
                   style={{
-                    fontStyle: "italic",
+                    fontSize: 16,
+                    fontWeight: 200,
                   }}
                 >
-                  Shop Voucher 50% mua lần đầu
+                  Chọn hoặc nhập mã
                 </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  marginHorizontal: 5,
+                  opacity: 0.2,
+                }}
+              >
+                <Entypo name="chevron-small-right" size={24} color="black" />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              flex: 1,
+              borderTopWidth: 1,
+              borderColor: COLORS.light,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
+                style={{
+                  marginHorizontal: 5,
+                }}
+              >
                 <MaterialIcons
                   name="attach-money"
                   size={24}
                   color={COLORS.primary}
                 />
+              </View>
+              <View>
                 <Text
                   style={{
-                    fontWeight: 300,
                     fontSize: 16,
+                    fontWeight: 400,
                   }}
                 >
-                  {" "}
-                  Tổng:{" "}
-                </Text>
-                <Text
-                  style={{
-                    color: COLORS.primary,
-                    fontSize: 16,
-                    fontWeight: 500,
-                  }}
-                >
-                  {" "}
-                  đ154.600
+                  Bạn chưa chọn sản phẩm
                 </Text>
               </View>
             </View>
-            <View
-              style={{
-                alignItems: "flex-end",
-                marginTop: 10,
-              }}
-            ></View>
-          </View>
-        </ScrollView>
-      </View>
-
-      <View
-        style={{
-          backgroundColor: COLORS.lightGray,
-          flex: 0.3,
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            borderTopWidth: 1,
-            borderColor: COLORS.light,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View
-              style={{
-                marginHorizontal: 5,
-              }}
-            >
-              <Fontisto name="shopping-sale" size={24} color={COLORS.primary} />
-            </View>
-            <View>
-              <Text
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Switch
                 style={{
-                  fontSize: 16,
-                  fontWeight: 400,
+                  marginHorizontal: 5,
+                  opacity: 0.5,
                 }}
-              >
-                TasteTreeker Voucher
-              </Text>
+              ></Switch>
             </View>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 200,
-                }}
-              >
-                Chọn hoặc nhập mã
-              </Text>
-            </View>
-            <View
-              style={{
-                marginHorizontal: 5,
-                opacity: 0.2,
-              }}
-            >
-              <Entypo name="chevron-small-right" size={24} color="black" />
-            </View>
-          </View>
-        </TouchableOpacity>
 
-        <View
-          style={{
-            flex: 1,
-            borderTopWidth: 1,
-            borderColor: COLORS.light,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View
-              style={{
-                marginHorizontal: 5,
-              }}
-            >
-              <MaterialIcons
-                name="attach-money"
-                size={24}
-                color={COLORS.primary}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 400,
-                }}
-              >
-                Bạn chưa chọn sản phẩm
-              </Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Switch
-              style={{
-                marginHorizontal: 5,
-                opacity: 0.5,
-              }}
-            ></Switch>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flex: 1,
-            borderTopWidth: 1,
-            borderColor: COLORS.light,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginLeft: 5,
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={{ fontWeight: 400 }}>Tổng thanh toán </Text>
-            <Text
-              style={{ fontWeight: 600, color: COLORS.primary, fontSize: 20 }}
-            >
-              đ1.253.000
-            </Text>
-          </View>
-          <TouchableOpacity
+          <View
             style={{
-              backgroundColor: COLORS.primary,
-              height: "100%",
-              justifyContent: "center",
+              flex: 1,
+              borderTopWidth: 1,
+              borderColor: COLORS.light,
+              flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
-              padding: 5,
+              marginLeft: 5,
             }}
           >
-            <Text
-              style={{ fontWeight: 600, color: COLORS.white, fontSize: 20 }}
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontWeight: 400 }}>Tổng thanh toán </Text>
+              <Text
+                style={{ fontWeight: 600, color: COLORS.primary, fontSize: 20 }}
+              >
+                đ
+                {itemCart
+                  .reduce(
+                    (accumulator, item) =>
+                      accumulator + item.price * item.quantity,
+                    0
+                  )
+                  .toLocaleString("en-US", {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3,
+                  })}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: COLORS.primary,
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 5,
+              }}
             >
-              {" "}
-              Mua hàng (3)
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{ fontWeight: 600, color: COLORS.white, fontSize: 20 }}
+              >
+                {" "}
+                Mua hàng ({itemCart.length})
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 export default CartScreen;
+
 const styles = StyleSheet.create({
   btn: {
     height: 35,
     width: 30,
-    marginHorizontal: 0,
+    marginHorizontal: 15,
     borderWidth: 1,
     padding: 10,
-    backgroundColor: COLORS.lightGray,
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: COLORS.lightGray,
   },
-  // txt_d1: {
-  //   color: COLORS.black,
-  //   fontSize: SIZES.h2,
-  // },
-  // txt_d2: {
-  //   color: COLORS.black,
-  //   fontSize: SIZES.h3,
-  //   fontWeight: "300",
-  // },
-  // txt_d3: {
-  //   color: COLORS.black,
-  //   fontSize: SIZES.h4,
-  //   fontStyle: "italic",
-  //   fontWeight: "300",
-  // },
+  txt_d1: {
+    color: COLORS.white,
+    fontSize: SIZES.h2,
+  },
+  txt_d2: {
+    color: COLORS.white,
+    fontSize: SIZES.h3,
+    fontWeight: "300",
+  },
+  txt_d3: {
+    color: COLORS.white,
+    fontSize: SIZES.h4,
+    fontStyle: "italic",
+    fontWeight: "300",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
 });

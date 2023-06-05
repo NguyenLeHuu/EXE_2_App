@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -21,8 +21,30 @@ import {
   FontAwesome,
   AntDesign,
 } from "@expo/vector-icons";
+import createMyAxios from "../util/axios";
+const API = createMyAxios();
 
-const SupplierScreen = ({ navigation }) => {
+const SupplierScreen = ({ navigation, route }) => {
+  let salerid = route.params.data;
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await API.get(`/product/${salerid}`);
+        // const response = await API.getWithData(
+        //   `/product/?catename=${catename}`
+        // );
+        // console.log(response);
+        setProducts(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor={COLORS.lightPrimary1} />
@@ -116,7 +138,7 @@ const SupplierScreen = ({ navigation }) => {
                   fontWeight: "bold",
                 }}
               >
-                Xưởng Hà Phong
+                {products[0]?.Category.Saler.name || "Shop XXX"}
               </Text>
               <AntDesign
                 name="right"
@@ -194,450 +216,63 @@ const SupplierScreen = ({ navigation }) => {
           flex: 1,
         }}
       >
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("ProductDetail");
-            }}
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product1.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            flexWrap: "wrap",
+          }}
+        >
+          {products.map((product, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                navigation.navigate("ProductDetail", {
+                  data: { product },
+                });
               }}
-            />
-            <View
               style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
+                //   height: 198,
+                width: 198,
+                backgroundColor: COLORS.white,
+                justifyContent: "space-evenly",
+                marginBottom: 5,
               }}
             >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
+              <Image
+                // source={require("../assets/images/product1.png")}
+                source={{
+                  uri:
+                    product?.mainimg ||
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5SpmjR1qryESMLE7EQ6IVXO-gednZHwqtaA&usqp=CAU",
+                }}
+                style={{
+                  width: 162,
+                  height: 124,
+                  alignSelf: "center",
+                  marginTop: 10,
+                }}
+              />
+              <View
+                style={{
+                  marginBottom: 20,
+                  marginHorizontal: 10,
+                  marginVertical: 10,
+                }}
               >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product2.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product3.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product4.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product1.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product2.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product3.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product4.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product1.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product2.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product3.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{
-              //   height: 198,
-              width: 198,
-              backgroundColor: COLORS.white,
-              justifyContent: "space-evenly",
-              marginBottom: 5,
-            }}
-          >
-            <Image
-              source={require("../assets/images/product4.png")}
-              style={{
-                width: 162,
-                height: 124,
-                alignSelf: "center",
-                marginTop: 10,
-              }}
-            />
-            <View
-              style={{
-                marginBottom: 20,
-                marginHorizontal: 10,
-                marginVertical: 10,
-              }}
-            >
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>95 lượt mua</Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontSize: 16, fontWeight: 500 }}
-              >
-                Bánh xoài Nha Trangaknvjabvjabvabvajbvjsbvjabvjabvjabjvbj
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text style={{ fontSize: 12, fontWeight: 300 }}>
+                  95 lượt mua
+                </Text>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={{ fontSize: 16, fontWeight: 500 }}
+                >
+                  {product.name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
     </View>

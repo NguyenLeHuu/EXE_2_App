@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const baseURL = "http://192.168.1.172:8080";
+// const baseURL = "http://192.168.1.172:8080";
+const baseURL =
+  "https://ec2-54-169-148-196.ap-southeast-1.compute.amazonaws.com";
 
 const createMyAxios = () => {
   const api = axios.create({

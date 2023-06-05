@@ -33,6 +33,7 @@ const ProductDetail = ({ navigation, route }) => {
         alignItems: "center",
       }}
     >
+      <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
       <View style={{ backgroundColor: COLORS.primary }}>
         <View
           style={{

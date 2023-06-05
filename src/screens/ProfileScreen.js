@@ -42,6 +42,7 @@ const ProfileScreen = ({ navigation }) => {
       .then(() => navigation.navigate("Login"))
       .catch(() => {
         console.log(" >>ERR LOG_OUT");
+        navigation.navigate("Login");
       });
   };
   React.useEffect(() => {
