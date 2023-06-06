@@ -11,6 +11,7 @@ import {
   TextInput,
   StyleSheet,
   ActivityIndicator,
+  Linking,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/index";
 import { MaterialIcons, Entypo, Ionicons, Fontisto } from "@expo/vector-icons";
@@ -130,6 +131,41 @@ const CartScreen = ({ navigation }) => {
       orderdetailid: orderdetailid,
     });
     await fetchData();
+  };
+
+  const paypal = async () => {
+    const items_cart = itemCart.map((item) => ({
+      name: item.Product.name,
+      sku: item.Product.productid,
+      price: item.Product.price,
+      currency: "USD",
+      quantity: item.quantity,
+    }));
+    // console.log(items_cart);
+
+    const total = itemCart.reduce(
+      (accumulator, item) => accumulator + item.Product.price * item.quantity,
+      0
+    );
+
+    const idorder = cart.orderid;
+
+    // const response = await API.post("/pay", {
+    //   items_cart: items_cart,
+    //   total: total,
+    //   idorder: idorder,
+    //customerid:idcustomer
+    // });
+    // const link_return =
+    //   "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-52D24162RW355721F";
+    // const supported = await Linking.canOpenURL(link_return);
+
+    // if (supported) {
+    //   await Linking.openURL(link_return);
+
+    // } else {
+    //   console.log("Không thể mở URL:", link_return);
+    // }
   };
 
   if (isLoading) {
@@ -590,6 +626,9 @@ const CartScreen = ({ navigation }) => {
               </Text>
             </View>
             <TouchableOpacity
+              onPress={() => {
+                paypal();
+              }}
               style={{
                 backgroundColor: COLORS.primary,
                 height: "100%",
