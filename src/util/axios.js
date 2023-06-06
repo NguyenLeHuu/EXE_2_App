@@ -40,6 +40,15 @@ const createMyAxios = () => {
       });
   };
 
+  const put = (endpoint, data) => {
+    return api
+      .put(endpoint, data)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw new Error(`PUT request to ${endpoint} failed: ${error.message}`);
+      });
+  };
+
   // Thêm các phương thức khác như put, delete, patch tương tự
 
   // Ví dụ về phương thức tùy chỉnh
@@ -62,6 +71,7 @@ const createMyAxios = () => {
     get,
     getWithData,
     post,
+    put,
     customRequest,
   };
 };

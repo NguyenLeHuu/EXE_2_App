@@ -20,9 +20,21 @@ const API = createMyAxios();
 const ProductDetail = ({ navigation, route }) => {
   const [quantity, setQuantity] = useState(1);
   const product = route.params.data.product;
+  // console.log(product);
 
-  const handlerAddToCart = () => {
-    navigation.navigate("Tab bar");
+  const handlerAddToCart = async () => {
+    try {
+      const response = await API.post("orderdetail", {
+        quantity: quantity,
+        orderid: "Order09",
+        productid: product.productid,
+        salerid: product.salerid,
+      });
+
+      navigation.navigate("Tab bar");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

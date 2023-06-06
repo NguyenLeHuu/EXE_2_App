@@ -164,20 +164,21 @@ const CartScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const idcustomer = "Cus_01";
-        const response = await API.get(`order/${idcustomer}`);
-        const responseData = response.data;
-        set1(responseData);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchData();
   }, [idcustomer]);
+
+  const fetchData = async () => {
+    try {
+      // const idcustomer = "Cus_01";
+      const response = await API.get(`order/${idcustomer}`);
+      const responseData = response.data;
+      set1(responseData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const set1 = (data) => {
     // console.log("data____", data);
@@ -197,9 +198,9 @@ const CartScreen = ({ navigation }) => {
       setItemCart(orderdetails);
     }
   }, [cart]);
-  useEffect(() => {
-    console.log("item cart ___", itemCart.length);
-  }, [itemCart]);
+  // useEffect(() => {
+  //   console.log("item cart ___", itemCart.length);
+  // }, [itemCart]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -230,6 +231,22 @@ const CartScreen = ({ navigation }) => {
   //   fetchData();
   //   // }, 1000);
   // });
+
+  const handerIncrease = async (orderdetailid, quantity) => {
+    await API.put("orderdetail", {
+      quantity: quantity + 1,
+      orderdetailid: orderdetailid,
+    });
+    await fetchData();
+  };
+
+  const handerDescrease = async (orderdetailid, quantity) => {
+    await API.put("orderdetail", {
+      quantity: quantity - 1,
+      orderdetailid: orderdetailid,
+    });
+    await fetchData();
+  };
 
   if (isLoading) {
     return (
@@ -373,7 +390,7 @@ const CartScreen = ({ navigation }) => {
                           width: 300,
                         }}
                       >
-                        {item?.name ||
+                        {item?.Product.name ||
                           "Gìay đá bóng Predator 2021_mouma roni ko da đẹpaaaaaaaaaaaaaaaaaaaaaaa"}
                       </Text>
                       <View
@@ -412,7 +429,12 @@ const CartScreen = ({ navigation }) => {
                     }}
                   >
                     <View>
-                      <TouchableOpacity style={styles.btn}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          handerDescrease(item.orderdetailid, item.quantity);
+                        }}
+                        style={styles.btn}
+                      >
                         <Text
                           style={{
                             color: COLORS.black,
@@ -442,7 +464,12 @@ const CartScreen = ({ navigation }) => {
                       </Text>
                     </View>
                     <View>
-                      <TouchableOpacity style={styles.btn}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          handerIncrease(item.orderdetailid, item.quantity);
+                        }}
+                        style={styles.btn}
+                      >
                         <Text
                           style={{
                             color: COLORS.black,
