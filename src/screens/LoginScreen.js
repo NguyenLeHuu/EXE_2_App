@@ -67,52 +67,37 @@ const LoginScreen = ({ navigation }) => {
 
     try {
       const idToken = await user.getIdToken();
-      // console.log(idToken);
-      AsyncStorage.setItem(
-        "UserLoggedInData",
-        JSON.stringify({ user, loggedIn: true, idToken })
-      );
+
       const response = await API.post("/login", {
         idToken: idToken,
       });
-      // console.log(response);
-      // user
-      //   .getIdToken()
-      //   .then(async (idToken) => {
-      //     console.log(idToken);
+      const accessToken = response.accessToken;
+      AsyncStorage.setItem(
+        "UserLoggedInData",
+        JSON.stringify({ user, loggedIn: true, idToken, accessToken })
+      );
+      console.log(response);
 
-      //     const response = await API.post("/login", {
-      //       idToken: idToken,
-      //     });
-      //     console.log(response);
-      //     switch (response.accountdb) {
-      //       case "unknown":
-      //         const response_signup = await API.post("/signup", {
-      //           role: "customer",
-      //           address: currentUser?.address || "",
-      //           data: {
-      //             name: currentUser.displayName,
-      //             uid: currentUser.uid,
-      //             email: currentUser.email,
-      //             phone: currentUser?.phoneNumber || "",
-      //             picture: currentUser.photoURL,
-      //           },
-      //         });
-      //         await AsyncStorage.setItem("idToken", JSON.stringify(idToken));
-      //         navigation.navigate("Tab bar");
-      //         break;
-      //       case "customer":
-      //         await AsyncStorage.setItem("idToken", JSON.stringify(idToken));
-      //         navigation.navigate("Tab bar");
-      //         break;
-      //       case "saler":
-      //         break;
-      //     }
-      //   })
-
-      //   .catch((error) => {
-      //     console.log("Error getting ID token:", error);
-      //   });
+      switch (response.accountdb) {
+        case "unknown":
+          const response_signup = await API.post("/signup", {
+            role: "customer",
+            address: currentUser?.address || "",
+            data: {
+              name: currentUser.displayName,
+              uid: currentUser.uid,
+              email: currentUser.email,
+              phone: currentUser?.phoneNumber || "",
+              picture: currentUser?.photoURL,
+            },
+          });
+          navigation.navigate("Tab bar");
+          break;
+        case "customer":
+          break;
+        case "saler":
+          break;
+      }
     } catch (error) {
       console.log(error);
     }

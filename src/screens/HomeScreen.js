@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       getUserData();
-    }, 500);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -55,12 +55,13 @@ const HomeScreen = ({ navigation }) => {
       const response = await API.get(`order/${idcustomer}`);
       const responseData = response.data;
       if (responseData.length > 0) {
+        set1(responseData);
       } else {
         const response_create_empty_cart = await API.post("/order", {
           customerid: idcustomer,
         });
+        await fetchData();
       }
-      set1(responseData);
     } catch (error) {
       console.log(error);
     } finally {

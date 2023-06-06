@@ -252,7 +252,12 @@ const CartScreen = ({ navigation }) => {
                       }}
                     >
                       <Image
-                        source={require("./../assets/images/product.png")}
+                        // source={require("./../assets/images/product.png")}
+                        source={{
+                          uri:
+                            item?.Product.mainimg ||
+                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5SpmjR1qryESMLE7EQ6IVXO-gednZHwqtaA&usqp=CAU",
+                        }}
                         style={{
                           width: 70,
                           height: 70,

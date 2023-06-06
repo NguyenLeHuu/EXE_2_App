@@ -30,17 +30,17 @@ const ProductDetail = ({ navigation, route }) => {
   const getUserData = async () => {
     const cartid = await AsyncStorage.getItem("cartid");
     if (cartid) {
-      // console.log("cartid__", cartid);
+      console.log("cartid__", cartid);
       let cartid_obj = JSON.parse(cartid);
       let id = cartid_obj.orderid;
-      // console.log("id_", id);
+      console.log("id_", id);
       setOrderid(id);
     }
   };
 
   const handlerAddToCart = async () => {
     try {
-      // console.log("orderid__", orderid);
+      console.log("orderid__", orderid);
       const response = await API.post("orderdetail", {
         quantity: quantity,
         orderid: orderid,
