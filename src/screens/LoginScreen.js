@@ -56,10 +56,10 @@ const LoginScreen = ({ navigation }) => {
   async function onAuthStateChanged(user) {
     setIsLoading(true);
     // setUser(user);
-    AsyncStorage.setItem(
-      "UserLoggedInData",
-      JSON.stringify({ user, loggedIn: true })
-    );
+    // AsyncStorage.setItem(
+    //   "UserLoggedInData",
+    //   JSON.stringify({ user, loggedIn: true, idToken })
+    // );
     // console.log(">>");
     // console.log(user);
     // console.log("<<");
@@ -68,6 +68,10 @@ const LoginScreen = ({ navigation }) => {
     try {
       const idToken = await user.getIdToken();
       // console.log(idToken);
+      AsyncStorage.setItem(
+        "UserLoggedInData",
+        JSON.stringify({ user, loggedIn: true, idToken })
+      );
       const response = await API.post("/login", {
         idToken: idToken,
       });

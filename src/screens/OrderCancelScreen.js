@@ -22,7 +22,7 @@ const OrderCancelScreen = ({ navigation, route }) => {
         const filteredCancel = data.filter(
           (order) => order.status === "cancel"
         );
-        console.log("___", filteredCancel);
+        // console.log("___", filteredCancel);
         setCancel(filteredCancel);
       } catch (error) {
         console.log(error);

@@ -20,7 +20,7 @@ const OrderDoneScreen = ({ navigation, route }) => {
       try {
         let { data } = route.params;
         const filteredDone = data.filter((order) => order.status === "done");
-        console.log("___", filteredDone);
+        // console.log("___", filteredDone);
         setDone(filteredDone);
       } catch (error) {
         console.log(error);

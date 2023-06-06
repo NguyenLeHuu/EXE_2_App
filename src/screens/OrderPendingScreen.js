@@ -22,7 +22,7 @@ const OrderPendingScreen = ({ navigation, route }) => {
         const filteredPending = data.filter(
           (order) => order.status === "pending"
         );
-        console.log("___", filteredPending);
+        // console.log("___", filteredPending);
         setPending(filteredPending);
       } catch (error) {
         console.log(error);

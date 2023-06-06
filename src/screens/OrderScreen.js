@@ -13,6 +13,7 @@ import OrderPendingScreen from "./OrderPendingScreen";
 import OrderDoneScreen from "./OrderDoneScreen";
 import OrderCancelScreen from "./OrderCancelScreen";
 import createMyAxios from "../util/axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API = createMyAxios();
 const Tab = createMaterialTopTabNavigator();
@@ -170,40 +171,65 @@ export const responeFake = {
 const OrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const done1 = [1, 2, 3];
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const idcustomer = "Cus_01";
-  //       const response = await API.get(`order/customer/${idcustomer}`);
-  //       // console.log(response);
-  //       setOrders(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  const [idcustomer, setIdcustomer] = useState("");
+
+  const getUserData = async () => {
+    const UserLoggedInData = await AsyncStorage.getItem("UserLoggedInData");
+    if (UserLoggedInData) {
+      // console.log("UserLoggedInData >>>>");
+      // console.log(JSON.stringify(JSON.parse(UserLoggedInData), null, 2));
+      // console.log("<<<< UserLoggedInData");
+      let udata = JSON.parse(UserLoggedInData);
+      let id = udata.user.uid;
+      setIdcustomer(id);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      getUserData();
+    }, 500);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log("_______________");
-        const arr = responeFake.data;
-        setOrders(arr);
-
-        console.log(":::::::::orders");
-        console.log(orders);
+        console.log(idcustomer.length);
+        const response = await API.get(`order/${idcustomer}`);
+        const responseData = response.data;
+        set1(responseData);
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
       }
     };
-    // setTimeout(() => {
     fetchData();
-    // }, 1000);
-  });
+  }, [idcustomer]);
+
+  const set1 = (data) => {
+    // console.log("data____", data);
+    setOrders(data);
+  };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // console.log("_______________");
+  //       const arr = responeFake.data;
+  //       setOrders(arr);
+
+  //       console.log(":::::::::orders");
+  //       console.log(orders);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   // setTimeout(() => {
+  //   fetchData();
+  //   // }, 1000);
+  // });
 
   if (isLoading) {
     return (
