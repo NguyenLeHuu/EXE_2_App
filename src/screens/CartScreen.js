@@ -142,18 +142,35 @@ const CartScreen = ({ navigation }) => {
   const [orders, setOrders] = useState();
   const [cart, setCart] = useState();
   const [itemCart, setItemCart] = useState([]);
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
   //       const idcustomer = "Cus_01";
-  //       const response = await API.get(`order/customer/${idcustomer}`);
-  //       // console.log(response);
-  //       setOrders(response.data);
+  //       const response = await API.get(`order/${idcustomer}`);
+  //       console.log(response);
 
+  //       await setOrders(response.data);
+  //       console.log(":::::::::orders");
+  //       console.log(orders);
+
+  //       const filteredCart = orders.find((order) => order.status === "cart");
+
+  //       setCart(filteredCart);
+  //       console.log(":::::::::cart");
+  //       console.log(cart);
+  //       const orderdetails = cart.OrderDetails;
+  //       console.log(":::::::::orderdetails");
+  //       console.log(orderdetails);
+
+  //       setItemCart(orderdetails);
   //     } catch (error) {
   //       console.log(error);
+  //     } finally {
+  //       setIsLoading(false);
   //     }
   //   };
+
   //   fetchData();
   // }, []);
 
@@ -186,21 +203,6 @@ const CartScreen = ({ navigation }) => {
     fetchData();
     // }, 1000);
   });
-
-  // useEffect(() => {
-  //   const filteredCart = orders.filter((order) => order.status === "cart");
-  //   setCart(filteredCart);
-  // }, [orders]);
-
-  // useEffect(() => {
-  //   const orderdetails = cart[0].OrderDetails;
-
-  //   setItemCart(orderdetails);
-  // }, [cart]);
-
-  // useEffect(() => {
-  //   setIsLoading(false);
-  // }, [itemCart]);
 
   if (isLoading) {
     return (

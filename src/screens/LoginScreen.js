@@ -60,9 +60,9 @@ const LoginScreen = ({ navigation }) => {
       "UserLoggedInData",
       JSON.stringify({ user, loggedIn: true })
     );
-    console.log(">>");
-    console.log(user);
-    console.log("<<");
+    // console.log(">>");
+    // console.log(user);
+    // console.log("<<");
     const currentUser = auth().currentUser;
 
     try {

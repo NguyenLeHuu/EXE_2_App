@@ -75,6 +75,14 @@ export const responeFake = {
       status: "done",
       OrderDetails: [],
     },
+    // {
+    //   orderid: "Order09",
+    //   date: "2023-02-06",
+    //   totalmoney: "650000.00",
+    //   customerid: "Cus_01",
+    //   status: "cancel",
+    //   OrderDetails: [],
+    // },
     {
       orderid: "Order06",
       date: "2023-02-06",
