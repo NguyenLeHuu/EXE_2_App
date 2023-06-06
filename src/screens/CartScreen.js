@@ -19,125 +19,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API = createMyAxios();
 
-export const responeFake = {
-  status: 200,
-  message: "Get list order/cart by customer id successful!",
-  data: [
-    {
-      orderid: "9e603d588054c8c55064a51c661aa1",
-      date: "2023-06-02",
-      totalmoney: "0.00",
-      customerid: "Cus_01",
-      status: "any",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order01",
-      date: "2023-02-06",
-      totalmoney: "20000.00",
-      customerid: "Cus_01",
-      status: "pending",
-      OrderDetails: [
-        {
-          orderdetailid: 3,
-          productid: "PRODUCT_001",
-          quantity: 10,
-        },
-      ],
-    },
-    {
-      orderid: "Order02",
-      date: "2023-02-06",
-      totalmoney: "245000.00",
-      customerid: "Cus_01",
-      status: "pending",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order03",
-      date: "2023-02-06",
-      totalmoney: "163000.00",
-      customerid: "Cus_01",
-      status: "pending",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order04",
-      date: "2023-02-06",
-      totalmoney: "400000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order05",
-      date: "2023-02-06",
-      totalmoney: "650000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order06",
-      date: "2023-02-06",
-      totalmoney: "1025000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order07",
-      date: "2023-02-06",
-      totalmoney: "140000.00",
-      customerid: "Cus_01",
-      status: "cart",
-      OrderDetails: [
-        {
-          orderdetailid: "3",
-          quantity: "2",
-          orderid: "Order07",
-          productid: "PRODUCT_001",
-          price: "135.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "ShuShu Shop",
-          salerid: "SALER_001",
-        },
-        {
-          orderdetailid: "4",
-          quantity: "3",
-          orderid: "Order07",
-          productid: "PRODUCT_002",
-          price: "650.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "Yummi Shop",
-          salerid: "SALER_002",
-        },
-        {
-          orderdetailid: "5",
-          quantity: "1",
-          orderid: "Order07",
-          productid: "PRODUCT_003",
-          price: "320.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "Yummim Shop",
-          salerid: "SALER_003",
-        },
-      ],
-    },
-    {
-      orderid: "Order08",
-      date: "2023-02-06",
-      totalmoney: "103000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-  ],
-};
-
 const CartScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [orders, setOrders] = useState([]);
@@ -176,14 +57,17 @@ const CartScreen = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   const set1 = (data) => {
     // console.log("data____", data);
     setOrders(data);
-    // set2(orders);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   };
   useEffect(() => {
     if (orders.length > 0) {

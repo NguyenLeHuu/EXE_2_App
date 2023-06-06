@@ -19,6 +19,7 @@ const OrderPendingScreen = ({ navigation, route }) => {
     const fetchData = async () => {
       try {
         let { data } = route.params;
+        // console.log(data);
         const filteredPending = data.filter(
           (order) => order.status === "pending"
         );

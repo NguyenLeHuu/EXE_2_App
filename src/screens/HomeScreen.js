@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -19,10 +19,71 @@ import {
 } from "@expo/vector-icons";
 import { Avatar, Button, Card } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Tab = createMaterialBottomTabNavigator();
 
+const API = createMyAxios();
 const HomeScreen = ({ navigation }) => {
-  const API = createMyAxios();
+  const [isLoading, setIsLoading] = useState(true);
+  const [idcustomer, setIdcustomer] = useState("");
+  const [orders, setOrders] = useState([]);
+  const getUserData = async () => {
+    const UserLoggedInData = await AsyncStorage.getItem("UserLoggedInData");
+    if (UserLoggedInData) {
+      // console.log("UserLoggedInData >>>>");
+      // console.log(JSON.stringify(JSON.parse(UserLoggedInData), null, 2));
+      // console.log("<<<< UserLoggedInData");
+      let udata = JSON.parse(UserLoggedInData);
+      let id = udata.user.uid;
+      setIdcustomer(id);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      getUserData();
+    }, 500);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [idcustomer]);
+
+  const fetchData = async () => {
+    try {
+      const response = await API.get(`order/${idcustomer}`);
+      const responseData = response.data;
+      if (responseData.length > 0) {
+      } else {
+        const response_create_empty_cart = await API.post("/order", {
+          customerid: idcustomer,
+        });
+      }
+      set1(responseData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const set1 = (data) => {
+    // console.log("data____", data);
+    setOrders(data);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  };
+  useEffect(() => {
+    if (orders.length > 0) {
+      const filteredCart = orders.find((order) => order.status === "cart");
+      const orderid = filteredCart.orderid;
+      AsyncStorage.setItem("cartid", JSON.stringify({ orderid }));
+    }
+  }, [orders]);
+
   return (
     <View
       style={{

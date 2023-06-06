@@ -14,19 +14,36 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/index";
 import createMyAxios from "../util/axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API = createMyAxios();
 
 const ProductDetail = ({ navigation, route }) => {
   const [quantity, setQuantity] = useState(1);
+  const [orderid, setOrderid] = useState();
   const product = route.params.data.product;
   // console.log(product);
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const cartid = await AsyncStorage.getItem("cartid");
+    if (cartid) {
+      // console.log("cartid__", cartid);
+      let cartid_obj = JSON.parse(cartid);
+      let id = cartid_obj.orderid;
+      // console.log("id_", id);
+      setOrderid(id);
+    }
+  };
 
   const handlerAddToCart = async () => {
     try {
+      // console.log("orderid__", orderid);
       const response = await API.post("orderdetail", {
         quantity: quantity,
-        orderid: "Order09",
+        orderid: orderid,
         productid: product.productid,
         salerid: product.salerid,
       });

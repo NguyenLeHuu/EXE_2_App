@@ -18,155 +18,155 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const API = createMyAxios();
 const Tab = createMaterialTopTabNavigator();
 
-export const responeFake = {
-  status: 200,
-  message: "Get list order/cart by customer id successful!",
-  data: [
-    {
-      orderid: "9e603d588054c8c55064a51c661aa1",
-      date: "2023-06-02",
-      totalmoney: "0.00",
-      customerid: "Cus_01",
-      status: "any",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order01",
-      date: "2023-02-06",
-      totalmoney: "20000.00",
-      customerid: "Cus_01",
-      status: "pending",
-      OrderDetails: [
-        {
-          orderdetailid: 3,
-          productid: "PRODUCT_001",
-          quantity: 10,
-        },
-      ],
-    },
-    {
-      orderid: "Order02",
-      date: "2023-02-06",
-      totalmoney: "245000.00",
-      customerid: "Cus_01",
-      status: "pending",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order03",
-      date: "2023-02-06",
-      totalmoney: "163000.00",
-      customerid: "Cus_01",
-      status: "pending",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order04",
-      date: "2023-02-06",
-      totalmoney: "400000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-    {
-      orderid: "Order05",
-      date: "2023-02-06",
-      totalmoney: "650000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-    // {
-    //   orderid: "Order09",
-    //   date: "2023-02-06",
-    //   totalmoney: "650000.00",
-    //   customerid: "Cus_01",
-    //   status: "cancel",
-    //   OrderDetails: [],
-    // },
-    {
-      orderid: "Order06",
-      date: "2023-02-06",
-      totalmoney: "1025000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [
-        {
-          orderdetailid: "6",
-          quantity: "2",
-          orderid: "Order06",
-          productid: "PRODUCT_001",
-          price: "135.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "ShuShu Shop",
-          salerid: "SALER_001",
-        },
-        {
-          orderdetailid: "7",
-          quantity: "3",
-          orderid: "Order06",
-          productid: "PRODUCT_002",
-          price: "650.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "Yummi Shop",
-          salerid: "SALER_002",
-        },
-      ],
-    },
-    {
-      orderid: "Order07",
-      date: "2023-02-06",
-      totalmoney: "140000.00",
-      customerid: "Cus_01",
-      status: "cart",
-      OrderDetails: [
-        {
-          orderdetailid: "3",
-          quantity: "2",
-          orderid: "Order07",
-          productid: "PRODUCT_001",
-          price: "135.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "ShuShu Shop",
-          salerid: "SALER_001",
-        },
-        {
-          orderdetailid: "4",
-          quantity: "3",
-          orderid: "Order07",
-          productid: "PRODUCT_002",
-          price: "650.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "Yummi Shop",
-          salerid: "SALER_002",
-        },
-        {
-          orderdetailid: "5",
-          quantity: "1",
-          orderid: "Order07",
-          productid: "PRODUCT_003",
-          price: "320.000",
-          rating: "4",
-          feedback: "qua xin",
-          salername: "Yummim Shop",
-          salerid: "SALER_003",
-        },
-      ],
-    },
-    {
-      orderid: "Order08",
-      date: "2023-02-06",
-      totalmoney: "103000.00",
-      customerid: "Cus_01",
-      status: "done",
-      OrderDetails: [],
-    },
-  ],
-};
+// export const responeFake = {
+//   status: 200,
+//   message: "Get list order/cart by customer id successful!",
+//   data: [
+//     {
+//       orderid: "9e603d588054c8c55064a51c661aa1",
+//       date: "2023-06-02",
+//       totalmoney: "0.00",
+//       customerid: "Cus_01",
+//       status: "any",
+//       OrderDetails: [],
+//     },
+//     {
+//       orderid: "Order01",
+//       date: "2023-02-06",
+//       totalmoney: "20000.00",
+//       customerid: "Cus_01",
+//       status: "pending",
+//       OrderDetails: [
+//         {
+//           orderdetailid: 3,
+//           productid: "PRODUCT_001",
+//           quantity: 10,
+//         },
+//       ],
+//     },
+//     {
+//       orderid: "Order02",
+//       date: "2023-02-06",
+//       totalmoney: "245000.00",
+//       customerid: "Cus_01",
+//       status: "pending",
+//       OrderDetails: [],
+//     },
+//     {
+//       orderid: "Order03",
+//       date: "2023-02-06",
+//       totalmoney: "163000.00",
+//       customerid: "Cus_01",
+//       status: "pending",
+//       OrderDetails: [],
+//     },
+//     {
+//       orderid: "Order04",
+//       date: "2023-02-06",
+//       totalmoney: "400000.00",
+//       customerid: "Cus_01",
+//       status: "done",
+//       OrderDetails: [],
+//     },
+//     {
+//       orderid: "Order05",
+//       date: "2023-02-06",
+//       totalmoney: "650000.00",
+//       customerid: "Cus_01",
+//       status: "done",
+//       OrderDetails: [],
+//     },
+//     // {
+//     //   orderid: "Order09",
+//     //   date: "2023-02-06",
+//     //   totalmoney: "650000.00",
+//     //   customerid: "Cus_01",
+//     //   status: "cancel",
+//     //   OrderDetails: [],
+//     // },
+//     {
+//       orderid: "Order06",
+//       date: "2023-02-06",
+//       totalmoney: "1025000.00",
+//       customerid: "Cus_01",
+//       status: "done",
+//       OrderDetails: [
+//         {
+//           orderdetailid: "6",
+//           quantity: "2",
+//           orderid: "Order06",
+//           productid: "PRODUCT_001",
+//           price: "135.000",
+//           rating: "4",
+//           feedback: "qua xin",
+//           salername: "ShuShu Shop",
+//           salerid: "SALER_001",
+//         },
+//         {
+//           orderdetailid: "7",
+//           quantity: "3",
+//           orderid: "Order06",
+//           productid: "PRODUCT_002",
+//           price: "650.000",
+//           rating: "4",
+//           feedback: "qua xin",
+//           salername: "Yummi Shop",
+//           salerid: "SALER_002",
+//         },
+//       ],
+//     },
+//     {
+//       orderid: "Order07",
+//       date: "2023-02-06",
+//       totalmoney: "140000.00",
+//       customerid: "Cus_01",
+//       status: "cart",
+//       OrderDetails: [
+//         {
+//           orderdetailid: "3",
+//           quantity: "2",
+//           orderid: "Order07",
+//           productid: "PRODUCT_001",
+//           price: "135.000",
+//           rating: "4",
+//           feedback: "qua xin",
+//           salername: "ShuShu Shop",
+//           salerid: "SALER_001",
+//         },
+//         {
+//           orderdetailid: "4",
+//           quantity: "3",
+//           orderid: "Order07",
+//           productid: "PRODUCT_002",
+//           price: "650.000",
+//           rating: "4",
+//           feedback: "qua xin",
+//           salername: "Yummi Shop",
+//           salerid: "SALER_002",
+//         },
+//         {
+//           orderdetailid: "5",
+//           quantity: "1",
+//           orderid: "Order07",
+//           productid: "PRODUCT_003",
+//           price: "320.000",
+//           rating: "4",
+//           feedback: "qua xin",
+//           salername: "Yummim Shop",
+//           salerid: "SALER_003",
+//         },
+//       ],
+//     },
+//     {
+//       orderid: "Order08",
+//       date: "2023-02-06",
+//       totalmoney: "103000.00",
+//       customerid: "Cus_01",
+//       status: "done",
+//       OrderDetails: [],
+//     },
+//   ],
+// };
 
 const OrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
@@ -194,22 +194,26 @@ const OrderScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(idcustomer.length);
+        // console.log(idcustomer.length);
         const response = await API.get(`order/${idcustomer}`);
         const responseData = response.data;
         set1(responseData);
       } catch (error) {
         console.log(error);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
+
     fetchData();
   }, [idcustomer]);
 
   const set1 = (data) => {
     // console.log("data____", data);
     setOrders(data);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   };
   // useEffect(() => {
   //   const fetchData = async () => {
