@@ -1,5 +1,11 @@
 import React, { useState, useEffect, createContext } from "react";
-import { View, Text, StatusBar, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StatusBar,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/index";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -11,114 +17,272 @@ import createMyAxios from "../util/axios";
 const API = createMyAxios();
 const Tab = createMaterialTopTabNavigator();
 
+export const responeFake = {
+  status: 200,
+  message: "Get list order/cart by customer id successful!",
+  data: [
+    {
+      orderid: "9e603d588054c8c55064a51c661aa1",
+      date: "2023-06-02",
+      totalmoney: "0.00",
+      customerid: "Cus_01",
+      status: "any",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order01",
+      date: "2023-02-06",
+      totalmoney: "20000.00",
+      customerid: "Cus_01",
+      status: "pending",
+      OrderDetails: [
+        {
+          orderdetailid: 3,
+          productid: "PRODUCT_001",
+          quantity: 10,
+        },
+      ],
+    },
+    {
+      orderid: "Order02",
+      date: "2023-02-06",
+      totalmoney: "245000.00",
+      customerid: "Cus_01",
+      status: "pending",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order03",
+      date: "2023-02-06",
+      totalmoney: "163000.00",
+      customerid: "Cus_01",
+      status: "pending",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order04",
+      date: "2023-02-06",
+      totalmoney: "400000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order05",
+      date: "2023-02-06",
+      totalmoney: "650000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+    {
+      orderid: "Order06",
+      date: "2023-02-06",
+      totalmoney: "1025000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [
+        {
+          orderdetailid: "6",
+          quantity: "2",
+          orderid: "Order06",
+          productid: "PRODUCT_001",
+          price: "135.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "ShuShu Shop",
+          salerid: "SALER_001",
+        },
+        {
+          orderdetailid: "7",
+          quantity: "3",
+          orderid: "Order06",
+          productid: "PRODUCT_002",
+          price: "650.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "Yummi Shop",
+          salerid: "SALER_002",
+        },
+      ],
+    },
+    {
+      orderid: "Order07",
+      date: "2023-02-06",
+      totalmoney: "140000.00",
+      customerid: "Cus_01",
+      status: "cart",
+      OrderDetails: [
+        {
+          orderdetailid: "3",
+          quantity: "2",
+          orderid: "Order07",
+          productid: "PRODUCT_001",
+          price: "135.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "ShuShu Shop",
+          salerid: "SALER_001",
+        },
+        {
+          orderdetailid: "4",
+          quantity: "3",
+          orderid: "Order07",
+          productid: "PRODUCT_002",
+          price: "650.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "Yummi Shop",
+          salerid: "SALER_002",
+        },
+        {
+          orderdetailid: "5",
+          quantity: "1",
+          orderid: "Order07",
+          productid: "PRODUCT_003",
+          price: "320.000",
+          rating: "4",
+          feedback: "qua xin",
+          salername: "Yummim Shop",
+          salerid: "SALER_003",
+        },
+      ],
+    },
+    {
+      orderid: "Order08",
+      date: "2023-02-06",
+      totalmoney: "103000.00",
+      customerid: "Cus_01",
+      status: "done",
+      OrderDetails: [],
+    },
+  ],
+};
+
 const OrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
-  const [done, setDone] = useState([1, 2]);
-  const [pending, setPending] = useState([]);
-  const [canceled, setCanceled] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   // const done1 = [1, 2, 3];
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const idcustomer = "Cus_01";
+  //       const response = await API.get(`order/customer/${idcustomer}`);
+  //       // console.log(response);
+  //       setOrders(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const idcustomer = "Cus_01";
-        const response = await API.get(`order/customer/${idcustomer}`);
-        // console.log(response);
-        setOrders(response.data);
+        // console.log("_______________");
+        const arr = responeFake.data;
+        setOrders(arr);
+
+        console.log(":::::::::orders");
+        console.log(orders);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
+    // setTimeout(() => {
     fetchData();
-  }, []);
-  // useEffect(() => {
-  //   setDone(orders.filter((order) => order.status === "done"));
-  //   // console.log(done.length);
-  //   setPending(orders.filter((order) => order.status === "pending"));
-  //   setCanceled(orders.filter((order) => order.status === "canceled"));
-  // }, [orders]);
-  // useEffect(() => {
-  //   console.log("________", done);
-  // }, [done]);
-  let filteredDone = [];
-  useEffect(() => {
-    filteredDone = orders.filter((order) => order.status === "done");
-    setDone(filteredDone);
-    // console.log("____", filteredDone);
-    navigation.setParams({ data: filteredDone });
-  }, [orders, navigation]);
-  
+    // }, 1000);
+  });
 
-  return (
-    <View style={{ flex: 1, flexDirection: "column" }}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
+  if (isLoading) {
+    return (
       <View
         style={{
+          flex: 1,
+          justifyContent: "center",
           flexDirection: "row",
-          height: 113,
-          backgroundColor: COLORS.primary,
-          alignItems: "center",
+          justifyContent: "space-around",
+          padding: 10,
         }}
       >
-        <Pressable
-          onPress={() => {
-            navigation.goBack();
-          }}
-          style={{ marginLeft: 10 }}
-        >
-          <Ionicons
-            name="ios-arrow-back-sharp"
-            size={SIZES.h2}
-            fontWeight="100"
-            color="white"
-          />
-        </Pressable>
-        <Text
+        <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, flexDirection: "column" }}>
+        <StatusBar backgroundColor={COLORS.primary} barStyle="dark-content" />
+        <View
           style={{
-            marginLeft: 10,
-            fontSize: SIZES.h2,
-            color: COLORS.white,
-            fontWeight: 400,
+            flexDirection: "row",
+            height: 113,
+            backgroundColor: COLORS.primary,
+            alignItems: "center",
           }}
         >
-          Đơn hàng của bạn ({orders.length})
-        </Text>
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}
+            style={{ marginLeft: 10 }}
+          >
+            <Ionicons
+              name="ios-arrow-back-sharp"
+              size={SIZES.h2}
+              fontWeight="100"
+              color="white"
+            />
+          </Pressable>
+          <Text
+            style={{
+              marginLeft: 10,
+              fontSize: SIZES.h2,
+              color: COLORS.white,
+              fontWeight: 400,
+            }}
+          >
+            Đơn hàng của bạn ({orders.length})
+          </Text>
+        </View>
+        <View style={{ flex: 1, marginHorizontal: 10 }}>
+          <Tab.Navigator
+            initialRouteName="Đã nhận"
+            screenOptions={{
+              tabBarStyle: { backgroundColor: COLORS.white },
+              tabBarLabelStyle: {
+                fontSize: 15,
+                color: COLORS.primary,
+                fontWeight: "700",
+                textTransform: "none",
+              },
+              tabBarIndicatorStyle: { backgroundColor: COLORS.primary },
+              // swipeEnabled: false,
+            }}
+          >
+            <Tab.Screen
+              name="Đang giao"
+              component={OrderPendingScreen}
+              initialParams={{ data: orders }}
+            />
+            <Tab.Screen
+              name="Đã nhận"
+              component={OrderDoneScreen}
+              initialParams={{ data: orders }}
+            />
+            <Tab.Screen
+              name="Đã hủy"
+              component={OrderCancelScreen}
+              initialParams={{ data: orders }}
+            />
+          </Tab.Navigator>
+        </View>
       </View>
-      <View style={{ flex: 1, marginHorizontal: 10 }}>
-        <Tab.Navigator
-          initialRouteName="Đã nhận"
-          screenOptions={{
-            tabBarStyle: { backgroundColor: COLORS.white },
-            tabBarLabelStyle: {
-              fontSize: 15,
-              color: COLORS.primary,
-              fontWeight: "700",
-              textTransform: "none",
-            },
-            tabBarIndicatorStyle: { backgroundColor: COLORS.primary },
-            // swipeEnabled: false,
-          }}
-        >
-          <Tab.Screen
-            name="Đang giao"
-            component={OrderPendingScreen}
-            initialParams={{ data: pending }}
-          />
-          <Tab.Screen
-            name="Đã nhận"
-            component={OrderDoneScreen}
-            initialParams={{ data: filteredDone }}
-            // listeners={{
-            //   tabPress: handleDoneTabPress,
-            // }}
-          />
-          <Tab.Screen
-            name="Đã hủy"
-            component={OrderCancelScreen}
-            initialParams={{ data: canceled }}
-          />
-        </Tab.Navigator>
-      </View>
-    </View>
-  );
+    );
+  }
 };
 export default OrderScreen;
