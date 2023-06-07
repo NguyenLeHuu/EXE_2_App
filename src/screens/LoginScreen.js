@@ -66,37 +66,41 @@ const LoginScreen = ({ navigation }) => {
     const currentUser = auth().currentUser;
 
     try {
-      const idToken = await user.getIdToken();
+      if (currentUser) {
+        const idToken = await user.getIdToken();
 
-      const response = await API.post("/login", {
-        idToken: idToken,
-      });
-      const accessToken = response.accessToken;
-      AsyncStorage.setItem(
-        "UserLoggedInData",
-        JSON.stringify({ user, loggedIn: true, idToken, accessToken })
-      );
-      console.log(response);
+        const response = await API.post("/login", {
+          idToken: idToken,
+        });
+        const accessToken = response.accessToken;
+        AsyncStorage.setItem(
+          "UserLoggedInData",
+          JSON.stringify({ user, loggedIn: true, idToken, accessToken })
+        );
+        console.log(response);
 
-      switch (response.accountdb) {
-        case "unknown":
-          const response_signup = await API.post("/signup", {
-            role: "customer",
-            address: currentUser?.address || "",
-            data: {
-              name: currentUser.displayName,
-              uid: currentUser.uid,
-              email: currentUser.email,
-              phone: currentUser?.phoneNumber || "",
-              picture: currentUser?.photoURL,
-            },
-          });
-          navigation.navigate("Tab bar");
-          break;
-        case "customer":
-          break;
-        case "saler":
-          break;
+        switch (response.accountdb) {
+          case "unknown":
+            const response_signup = await API.post("/signup", {
+              role: "customer",
+              address: currentUser?.address || "",
+              data: {
+                name: currentUser.displayName,
+                uid: currentUser.uid,
+                email: currentUser.email,
+                phone: currentUser?.phoneNumber || "",
+                picture: currentUser?.photoURL,
+              },
+            });
+            await navigation.navigate("Tab bar");
+            break;
+          case "customer":
+            await navigation.navigate("Tab bar");
+            break;
+          case "saler":
+            break;
+        }
+      } else {
       }
     } catch (error) {
       console.log(error);
@@ -105,7 +109,7 @@ const LoginScreen = ({ navigation }) => {
       setIsLoading(false);
       // Continue with the login process
     }, 2000);
-    navigation.navigate("Tab bar");
+    // await navigation.navigate("Tab bar");
     if (initializing) setInitializing(false);
   }
 
@@ -126,7 +130,7 @@ const LoginScreen = ({ navigation }) => {
 
         <View
           style={{
-            marginTop: "15%",
+            marginTop: "13%",
             alignItems: "center",
           }}
         >
@@ -214,7 +218,7 @@ const LoginScreen = ({ navigation }) => {
               height: 18,
               width: 330,
               flexDirection: "row",
-              marginTop: 30,
+              marginTop: 25,
               alignItems: "center",
               justifyContent: "space-between",
             }}
@@ -248,7 +252,7 @@ const LoginScreen = ({ navigation }) => {
             style={{
               width: "50%",
               flexDirection: "row",
-              marginTop: 30,
+              marginTop: 25,
               alignItems: "center",
               justifyContent: "space-between",
             }}

@@ -4,7 +4,7 @@
     "slug": "extraeasfc05d456-8b08-42e4-a504-fadee76aaf48",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

@@ -207,7 +207,7 @@ const CartScreen = ({ navigation }) => {
               fontWeight: 400,
             }}
           >
-            Giỏ hàng ({itemCart.length})
+            Giỏ hàng ({itemCart.length - 1})
           </Text>
         </View>
 

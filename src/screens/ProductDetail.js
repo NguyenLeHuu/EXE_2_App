@@ -58,6 +58,7 @@ const ProductDetail = ({ navigation, route }) => {
     <View
       style={{
         flex: 1,
+        width: "100%",
         flexDirection: "column",
         alignItems: "center",
       }}
@@ -67,6 +68,7 @@ const ProductDetail = ({ navigation, route }) => {
         <View
           style={{
             backgroundColor: COLORS.primary,
+
             height: 320,
             width: 410,
             marginTop: 100,
@@ -209,7 +211,7 @@ const ProductDetail = ({ navigation, route }) => {
               fontWeight: "bold",
             }}
           >
-            Thêm vào giỏ hàng - {product.price}
+            Thêm vào giỏ hàng - {product.price * quantity}
           </Text>
         </TouchableOpacity>
       </View>

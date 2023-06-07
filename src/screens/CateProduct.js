@@ -95,7 +95,8 @@ const CateProduct = ({ navigation, route }) => {
               }}
               style={{
                 //   height: 198,
-                width: 198,
+                // width: 198,
+                width: "48%",
                 backgroundColor: COLORS.white,
                 justifyContent: "space-evenly",
                 marginBottom: 5,
