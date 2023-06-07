@@ -21,7 +21,7 @@ const OrderPendingScreen = ({ navigation, route }) => {
         let { data } = route.params;
         // console.log(data);
         const filteredPending = data.filter(
-          (order) => order.status === "pending"
+          (order) => order.status === "Pending"
         );
         // console.log("___", filteredPending);
         setPending(filteredPending);
@@ -119,7 +119,10 @@ const OrderPendingScreen = ({ navigation, route }) => {
                   }}
                 >
                   <Image
-                    source={require("./../assets/images/product.png")}
+                    // source={require("./../assets/images/product.png")}
+                    source={{
+                      uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTali6oOVisV0ppIoDd4BFXC-bEIsP2AvvvEQ&usqp=CAU",
+                    }}
                     style={{
                       width: 70,
                       height: 70,
@@ -137,7 +140,8 @@ const OrderPendingScreen = ({ navigation, route }) => {
                       width: 300,
                     }}
                   >
-                    Gìay đá bóng Predator 2021_mouma roni ko da đẹp
+                    {item.date ||
+                      "Gìay đá bóng Predator 2021_mouma roni ko da đẹp"}
                   </Text>
                   <View
                     style={{

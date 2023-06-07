@@ -63,7 +63,8 @@ const OrderScreen = ({ navigation }) => {
     setOrders(data);
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
+    // console.log(orders.length);
   };
   // useEffect(() => {
   //   const fetchData = async () => {

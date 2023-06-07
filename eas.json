@@ -4,19 +4,17 @@
   },
   "build": {
     "development": {
-      "ios": { "image": "latest" },
-      "developmentClient": true,
-      "distribution": "internal",
-      "credentialsSource": "local"
-    },
-    "preview": {
-      "distribution": "internal",
-      "developmentClient": true,
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": "assembleDebug"
       }
     },
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": "assembleRelease"
+      }
+    }
   },
   "submit": {
     "production": {}

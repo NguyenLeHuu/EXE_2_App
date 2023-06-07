@@ -116,7 +116,10 @@ const OrderDoneScreen = ({ navigation, route }) => {
                   }}
                 >
                   <Image
-                    source={require("./../assets/images/product.png")}
+                    // source={require("./../assets/images/product.png")}
+                    source={{
+                      uri: "https://png.pngtree.com/png-clipart/20191121/original/pngtree-package-ready-line-icon-vector-png-image_5142634.jpg",
+                    }}
                     style={{
                       width: 70,
                       height: 70,
@@ -134,7 +137,8 @@ const OrderDoneScreen = ({ navigation, route }) => {
                       width: 300,
                     }}
                   >
-                    Gìay đá bóng Predator 2021_mouma roni ko da đẹp
+                    {item.date ||
+                      "Gìay đá bóng Predator 2021_mouma roni ko da đẹp"}
                   </Text>
                   <View
                     style={{
