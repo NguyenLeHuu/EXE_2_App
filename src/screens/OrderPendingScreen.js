@@ -87,15 +87,19 @@ const OrderPendingScreen = ({ navigation, route }) => {
                       Yêu thích
                     </Text>
                   </View>
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    }}
-                  >
-                    {" "}
-                    {item?.orderid || "Ara Sports"}
-                  </Text>
+                  <View style={{ width: "60%", flexWrap: "nowrap" }}>
+                    <Text
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 16,
+                      }}
+                    >
+                      {" "}
+                      {item?.orderid || "Ara Sports"}
+                    </Text>
+                  </View>
                 </View>
                 <View>
                   <Text

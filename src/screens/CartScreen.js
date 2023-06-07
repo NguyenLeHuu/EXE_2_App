@@ -150,22 +150,22 @@ const CartScreen = ({ navigation }) => {
 
     const idorder = cart.orderid;
 
-    // const response = await API.post("/pay", {
-    //   items_cart: items_cart,
-    //   total: total,
-    //   idorder: idorder,
-    //customerid:idcustomer
-    // });
-    // const link_return =
-    //   "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-52D24162RW355721F";
-    // const supported = await Linking.canOpenURL(link_return);
+    const response = await API.post("/pay", {
+      items_cart: items_cart,
+      total: total,
+      idorder: idorder,
+      customerid: idcustomer,
+    });
 
-    // if (supported) {
-    //   await Linking.openURL(link_return);
+    const link_return = response.message;
 
-    // } else {
-    //   console.log("Không thể mở URL:", link_return);
-    // }
+    const supported = await Linking.canOpenURL(link_return);
+
+    if (supported) {
+      await Linking.openURL(link_return);
+    } else {
+      console.log("Không thể mở URL:", link_return);
+    }
   };
 
   if (isLoading) {
