@@ -26,12 +26,13 @@ const API = createMyAxios();
 
 const SupplierScreen = ({ navigation, route }) => {
   let salerid = route.params.data;
+  // console.log(salerid);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await API.get(`/product/${salerid}`);
+        const response = await API.get(`/saler/${salerid}`);
         // const response = await API.getWithData(
         //   `/product/?catename=${catename}`
         // );

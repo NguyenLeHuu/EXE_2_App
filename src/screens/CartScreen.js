@@ -207,7 +207,7 @@ const CartScreen = ({ navigation }) => {
               fontWeight: 400,
             }}
           >
-            Giỏ hàng ({itemCart.length - 1})
+            Giỏ hàng ({itemCart.length})
           </Text>
         </View>
 
@@ -236,7 +236,7 @@ const CartScreen = ({ navigation }) => {
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate("SupplierScreen", {
-                        data: item?.salerid,
+                        data: item?.Product.Category.Saler.salerid,
                       });
                     }}
                     style={{

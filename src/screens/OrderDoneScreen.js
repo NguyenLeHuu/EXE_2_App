@@ -151,7 +151,7 @@ const OrderDoneScreen = ({ navigation, route }) => {
                       fontWeight: 300,
                     }}
                   >
-                    <Text>A8_Đen cam, 41</Text>
+                    <Text>Khối lượng: 5000g</Text>
                   </View>
                 </View>
               </View>
