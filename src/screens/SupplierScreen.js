@@ -234,7 +234,8 @@ const SupplierScreen = ({ navigation, route }) => {
               }}
               style={{
                 //   height: 198,
-                width: 198,
+                // width: 198,
+                width: "47%",
                 backgroundColor: COLORS.white,
                 justifyContent: "space-evenly",
                 marginBottom: 5,

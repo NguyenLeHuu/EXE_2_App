@@ -13,8 +13,16 @@ import {
   ActivityIndicator,
   Linking,
 } from "react-native";
+import Modal from "react-native-modal";
 import { COLORS, SIZES } from "../constants/index";
-import { MaterialIcons, Entypo, Ionicons, Fontisto } from "@expo/vector-icons";
+
+import {
+  MaterialIcons,
+  Entypo,
+  Ionicons,
+  Fontisto,
+  Feather,
+} from "@expo/vector-icons";
 import createMyAxios from "../util/axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -26,6 +34,9 @@ const CartScreen = ({ navigation }) => {
   const [cart, setCart] = useState();
   const [itemCart, setItemCart] = useState([]);
   const [idcustomer, setIdcustomer] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const [totalMoney, setTotalMoney] = useState(0);
 
   const getUserData = async () => {
     const UserLoggedInData = await AsyncStorage.getItem("UserLoggedInData");
@@ -83,39 +94,6 @@ const CartScreen = ({ navigation }) => {
       setItemCart(orderdetails);
     }
   }, [cart]);
-  // useEffect(() => {
-  //   console.log("item cart ___", itemCart.length);
-  // }, [itemCart]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // console.log("_______________");
-  //       const arr = responeFake.data;
-  //       setOrders(arr);
-
-  //       // console.log(":::::::::orders");
-  //       // console.log(orders);
-  //       const filteredCart = orders.find((order) => order.status === "cart");
-  //       setCart(filteredCart);
-  //       // console.log(":::::::::cart");
-  //       // console.log(cart);
-  //       const orderdetails = cart.OrderDetails;
-  //       // console.log(":::::::::orderdetails");
-  //       // console.log(orderdetails);
-
-  //       setItemCart(orderdetails);
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   // setTimeout(() => {
-  //   fetchData();
-  //   // }, 1000);
-  // });
 
   const handerIncrease = async (orderdetailid, quantity) => {
     await API.put("orderdetail", {
@@ -133,40 +111,70 @@ const CartScreen = ({ navigation }) => {
     await fetchData();
   };
 
-  const paypal = async () => {
-    const items_cart = itemCart.map((item) => ({
-      name: item.Product.name,
-      sku: item.Product.productid,
-      price: item.Product.price,
-      currency: "USD",
-      quantity: item.quantity,
-    }));
-    // console.log(items_cart);
+  // const paypal = async () => {
+  //   const items_cart = itemCart.map((item) => ({
+  //     name: item.Product.name,
+  //     sku: item.Product.productid,
+  //     price: item.Product.price,
+  //     currency: "USD",
+  //     quantity: item.quantity,
+  //   }));
+  //   // console.log(items_cart);
 
+  //   const total = itemCart.reduce(
+  //     (accumulator, item) => accumulator + item.Product.price * item.quantity,
+  //     0
+  //   );
+
+  //   const idorder = cart.orderid;
+
+  //   const response = await API.post("/pay", {
+  //     items_cart: items_cart,
+  //     total: total,
+  //     idorder: idorder,
+  //     customerid: idcustomer,
+  //   });
+
+  //   const link_return = response.message;
+
+  //   const supported = await Linking.canOpenURL(link_return);
+
+  //   if (supported) {
+  //     await Linking.openURL(link_return);
+  //   } else {
+  //     console.log("Không thể mở URL:", link_return);
+  //   }
+  // };
+
+  const momo = async () => {
+    toggleModal();
+    console.log("momo");
     const total = itemCart.reduce(
       (accumulator, item) => accumulator + item.Product.price * item.quantity,
       0
     );
-
-    const idorder = cart.orderid;
-
-    const response = await API.post("/pay", {
-      items_cart: items_cart,
-      total: total,
-      idorder: idorder,
-      customerid: idcustomer,
+    setTotalMoney(total);
+    console.log(cart.orderid);
+    await API.put(`/order/status/${cart.orderid}`, {
+      tracking: "checking",
     });
 
-    const link_return = response.message;
+    await API.put(`/order/total/${cart.orderid}`, {
+      totalmoney: total,
+    });
 
-    const supported = await Linking.canOpenURL(link_return);
-
-    if (supported) {
-      await Linking.openURL(link_return);
-    } else {
-      console.log("Không thể mở URL:", link_return);
-    }
+    await API.post("/order", {
+      customerid: idcustomer,
+    });
   };
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  // const copyToClipboard = (content) => {
+  //   Clipboard.setString(content);
+  // };
 
   if (isLoading) {
     return (
@@ -627,7 +635,8 @@ const CartScreen = ({ navigation }) => {
             </View>
             <TouchableOpacity
               onPress={() => {
-                paypal();
+                // paypal();
+                momo();
               }}
               style={{
                 backgroundColor: COLORS.primary,
@@ -643,6 +652,169 @@ const CartScreen = ({ navigation }) => {
                 {" "}
                 Mua hàng ({itemCart.length})
               </Text>
+              <Modal
+                isVisible={isModalVisible}
+                animationIn="slideInDown"
+                animationOut="slideOutDown"
+                animationInTiming={900}
+                animationOutTiming={900}
+                onBackdropPress={toggleModal}
+              >
+                <View
+                  style={{
+                    marginHorizontal: 15,
+                    justifyContent: "flex-start",
+                    backgroundColor: COLORS.light,
+                    flex: 0.45,
+                    borderRadius: 20,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: COLORS.primary,
+                      flex: 0.3,
+                      borderTopStartRadius: 20,
+                      borderTopEndRadius: 20,
+                      marginBottom: 15,
+                    }}
+                  >
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 18,
+                          color: COLORS.white,
+                        }}
+                      >
+                        Hướng dẫn thanh toán
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      marginLeft: 10,
+                    }}
+                  >
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ fontSize: 18, fontWeight: "600" }}>
+                        Chuyển khoản với nội dung như sau
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          marginTop: 5,
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            width: "90%",
+                            borderRadius: 5,
+                            backgroundColor: COLORS.grey,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                          }}
+                        >
+                          <View style={{}}>
+                            <Text
+                              numberOfLines={2}
+                              // ellipsizeMode="tail"
+                              style={styles.content}
+                            >
+                              {`$TasteTreeker - ${cart.orderid} - đ${totalMoney}`}
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                          // onPress={copyToClipboard(
+                          //   `$TasteTreeker - xxxxxxxxxx - đ300.000.000000`
+                          // )}
+                          >
+                            <Feather name="copy" size={24} color="black" />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ fontSize: 18, fontWeight: "600" }}>
+                        Ngân Hàng Agribank
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          marginTop: 5,
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            width: "90%",
+                            borderRadius: 5,
+                            backgroundColor: COLORS.grey,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={styles.content}>
+                            Số tài khoản: 6001 2052 6241 5
+                          </Text>
+                          <TouchableOpacity
+                          // onPress={copyToClipboard("6001 2052 6241 5")}
+                          >
+                            <Feather name="copy" size={24} color="black" />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={{ marginBottom: 15 }}>
+                      <Text style={{ fontSize: 18, fontWeight: "600" }}>
+                        MoMo
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          marginTop: 5,
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            width: "90%",
+                            borderRadius: 5,
+                            backgroundColor: COLORS.grey,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={styles.content}>
+                            Số điện thoại: 0354187011
+                          </Text>
+                          <TouchableOpacity
+                          // onPress={copyToClipboard("0354187011")}
+                          >
+                            <Feather name="copy" size={24} color="black" />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                    {/* <View style={{ flex: 0.1, justifyContent: "flex-end" }}>
+                      <Text>Đơn hàng sẽ được kiểm tra và xác nhận sớm!</Text>
+                    </View> */}
+                  </View>
+                </View>
+              </Modal>
             </TouchableOpacity>
           </View>
         </View>
@@ -687,5 +859,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10,
+  },
+  content: {
+    color: COLORS.primary,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
