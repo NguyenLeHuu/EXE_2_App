@@ -30,9 +30,10 @@ const ProductDetail = ({ navigation, route }) => {
   const getUserData = async () => {
     const cartid = await AsyncStorage.getItem("cartid");
     if (cartid) {
+      console.log("ProductDetail:", cartid);
       console.log("cartid__", cartid);
       let cartid_obj = JSON.parse(cartid);
-      let id = cartid_obj.orderid;
+      let id = cartid_obj.id;
       console.log("id_", id);
       setOrderid(id);
     }
@@ -45,7 +46,7 @@ const ProductDetail = ({ navigation, route }) => {
         quantity: quantity,
         orderid: orderid,
         productid: product.productid,
-        salerid: product.salerid,
+        salerid: product.Category.Saler.salerid,
       });
 
       navigation.navigate("Tab bar");

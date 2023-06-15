@@ -154,7 +154,7 @@ const CartScreen = ({ navigation }) => {
       0
     );
     setTotalMoney(total);
-    console.log(cart.orderid);
+    console.log("cartid___", cart.orderid);
     await API.put(`/order/status/${cart.orderid}`, {
       tracking: "checking",
     });
@@ -163,9 +163,14 @@ const CartScreen = ({ navigation }) => {
       totalmoney: total,
     });
 
-    await API.post("/order", {
+    const res = await API.post("/order", {
       customerid: idcustomer,
     });
+
+    console.log(res.data.orderid);
+
+    const id = res.data.orderid;
+    await AsyncStorage.setItem("cartid", JSON.stringify({ id }));
   };
 
   const toggleModal = () => {
