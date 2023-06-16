@@ -33,7 +33,7 @@ const ProductDetail = ({ navigation, route }) => {
       console.log("ProductDetail:", cartid);
       console.log("cartid__", cartid);
       let cartid_obj = JSON.parse(cartid);
-      let id = cartid_obj.id;
+      let id = cartid_obj.orderid;
       console.log("id_", id);
       setOrderid(id);
     }
@@ -42,11 +42,15 @@ const ProductDetail = ({ navigation, route }) => {
   const handlerAddToCart = async () => {
     try {
       console.log("orderid__", orderid);
+      let salerid = "";
+      if (product.salerid != undefined) {
+        salerid = product.salerid;
+      } else salerid = product.Category.Saler.salerid;
       const response = await API.post("orderdetail", {
         quantity: quantity,
         orderid: orderid,
         productid: product.productid,
-        salerid: product.Category.Saler.salerid,
+        salerid: salerid,
       });
 
       navigation.navigate("Tab bar");

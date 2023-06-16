@@ -169,8 +169,8 @@ const CartScreen = ({ navigation }) => {
 
     console.log(res.data.orderid);
 
-    const id = res.data.orderid;
-    await AsyncStorage.setItem("cartid", JSON.stringify({ id }));
+    const orderid = res.data.orderid;
+    await AsyncStorage.setItem("cartid", JSON.stringify({ orderid }));
   };
 
   const toggleModal = () => {
