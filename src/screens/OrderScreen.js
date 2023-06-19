@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/index";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import OrderPendingScreen from "./OrderPendingScreen";
+import OrderChecking from "./OrderCkecking";
 import OrderDoneScreen from "./OrderDoneScreen";
 import OrderCancelScreen from "./OrderCancelScreen";
 import createMyAxios from "../util/axios";
@@ -153,6 +154,11 @@ const OrderScreen = ({ navigation }) => {
               // swipeEnabled: false,
             }}
           >
+            <Tab.Screen
+              name="Chờ xác nhận"
+              component={OrderChecking}
+              initialParams={{ data: orders }}
+            />
             <Tab.Screen
               name="Đang giao"
               component={OrderPendingScreen}

@@ -11,7 +11,7 @@ import {
 import { COLORS } from "../constants/index";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import Modal from "react-native-modal";
-const OrderPendingScreen = ({ navigation, route }) => {
+const OrderChecking = ({ navigation, route }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [pending, setPending] = useState([]);
 
@@ -21,7 +21,7 @@ const OrderPendingScreen = ({ navigation, route }) => {
         let { data } = route.params;
         // console.log(data);
         const filteredPending = data.filter(
-          (order) => order.status === "Pending"
+          (order) => order.status === "checking"
         );
         // console.log("___", filteredPending);
         setPending(filteredPending);
@@ -380,4 +380,4 @@ const OrderPendingScreen = ({ navigation, route }) => {
   }
 };
 
-export default OrderPendingScreen;
+export default OrderChecking;

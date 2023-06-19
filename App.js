@@ -10,6 +10,7 @@ import OrderScreen from "./src/screens/OrderScreen";
 import OrderCancelScreen from "./src/screens/OrderCancelScreen";
 import OrderDoneScreen from "./src/screens/OrderDoneScreen";
 import OrderPendingScreen from "./src/screens/OrderPendingScreen";
+import OrderChecking from "./src/screens/OrderCkecking";
 import CateProduct from "./src/screens/CateProduct";
 import SupplierScreen from "./src/screens/SupplierScreen";
 import NotiScreen from "./src/screens/NotiScreen";
@@ -31,6 +32,7 @@ export default function App() {
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen name="Order" component={OrderScreen} />
+        <Stack.Screen name="Chờ xác nhận" component={OrderChecking} />
         <Stack.Screen name="Đang giao" component={OrderPendingScreen} />
         <Stack.Screen name="Đã nhận" component={OrderDoneScreen} />
         <Stack.Screen name="Đã hủy" component={OrderCancelScreen} />
